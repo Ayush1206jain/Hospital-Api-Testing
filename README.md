@@ -1,80 +1,80 @@
-# Sistema de Gestão Hospitalar
+# Hospital Management System
 
-## Objetivo
+## Objective
 
-O objetivo do projeto é criar uma API para organizar um sistema público de saúde.
+The objective of the project is to create an API to organize a public health care system.
 
-## Contextualização
+## Background
 
-O Sistema Único de Saúde (SUS) é um dos maiores e mais complexos sistemas de saúde pública do mundo, abrangendo desde o simples atendimento para avaliação da pressão arterial, por meio da Atenção Básica, até o transplante de órgãos, garantindo acesso integral, universal e gratuito para toda a população do país. Com a sua criação, o SUS proporcionou o acesso universal ao sistema público de saúde, sem discriminação. A atenção integral à saúde, e não somente aos cuidados assistenciais, passou a ser um direito de todos os brasileiros, desde a gestação e por toda a vida, com foco na saúde com qualidade de vida, visando a prevenção e a promoção da saúde. O objetivo desse projeto é criar uma ferramenta para auxiliar o SUS, evitar desperdício e potencializar os recursos a partir dos pacientes.
+The Unified Health System (SUS) is one of the largest and most complex public health systems in the world, encompassing everything from simple consultations for blood pressure evaluation through primary care to organ transplantation, guaranteeing comprehensive, universal, and free access for the entire population of the country. With its creation, the SUS provided universal access to the public health system without discrimination. Comprehensive health care, not just medical assistance, became the right of all Brazilians from conception throughout their lives, with a focus on health with quality of life, aimed at disease prevention and health promotion. The objective of this project is to create a tool to assist the SUS, avoid waste, and optimize resources for patients.
 
-Ao final do programa, além de apresentar a API criada, cada squad deverá expor quais são os pontos de melhoria e quais seriam os próximos passos no projeto, caso fossem seguir adiante.
+At the end of the program, in addition to presenting the created API, each team should expose what improvement opportunities exist and what would be the next steps for the project if they were to proceed further.
 
-## Requisitos técnicos obrigatórios
+## Mandatory Technical Requirements
 
-Para o projeto é necessário que as squads se utilizem dos aprendizados repassados pelo programa AceleraDev, portanto a solução deve ser construída de acordo com os seguintes requisitos:
+For the project, it is necessary that teams utilize the learning provided by the AceleraDev program, therefore the solution must be built according to the following requirements:
 
-- Banco de dados;
-- Desenvolvimento do backend e APIs com Java Spring Boot;
-- Testes unitários são obrigatórios
+- Database
+- Backend development and APIs with Java Spring Boot
+- Unit tests are mandatory
 
-## Definições do Sistema
+## System Definitions
 
-- Todo hospital tem um estoque contendo diversos produtos.
-- Um estoque tem produtos e suas respectivas quantidades.
-- Dentro do estoque também tem banco de sangue
-- O hospital também possui leitos.
-- Ao encontrar um paciente é importante o recomendar para um hospital mais próximo e que tenha vaga disponível.
-- Caso o hospital precise de um produto, por exemplo, um banco de sangue, é importante fazer o envio do hospital mais próximo ao local.
-- Caso o hospital tenha apenas 4 itens ou 4 litros ele terá apenas o suficiente para o próprio hospital.
+- Every hospital has an inventory containing various products.
+- An inventory has products and their respective quantities.
+- The inventory also contains a blood bank.
+- The hospital also has beds (leitos).
+- When finding a patient, it is important to recommend them to the nearest hospital that has available beds.
+- If a hospital needs a product, for example, blood bank supplies, it is important to arrange transfer from the nearest hospital.
+- If a hospital has only 4 items or 4 liters, it will have just enough for its own use.
 
-## Exemplos de chamadas:
+## API Call Examples:
 
-A partir da API que gerencia os hospitais dentro do SUS o usuário conseguirá, por exemplo:
+Using the API that manages hospitals within the public health system, the user will be able to, for example:
 
-- Cadastrar o hospital
-- A partir da localização do paciente indicar o hospital mais próximo.
-- Realizar check-in/ check-out do paciente no hospital
-- Verificar quantos leitos disponíveis no hospital
-- Cadastrar produtos e suas respectivas quantidades
-- Cadastrar e gerenciar banco de sangue
+- Register a hospital
+- Based on the patient's location, indicate the nearest hospital
+- Perform patient check-in/check-out at the hospital
+- Check how many beds are available at the hospital
+- Register products and their respective quantities
+- Register and manage blood bank supplies
 
 ### /v1/hospitais/{id}
 
-Método: GET
-Retorna as informações do hospital, por exemplo:
+Method: GET
+Returns hospital information, for example:
 
-- Nome
-- Endereço
-- Número de leitos
-- Números de leitos disponíveis
+- Name
+- Address
+- Number of beds
+- Number of available beds
 
 ### /v1/hospitais/{id}/estoque
 
-Método: GET
-Retorna as informações dos produtos existentes estoque, por exemplo.
+Method: GET
+Returns information about existing products in inventory, for example.
 
 ### /v1/hospitais/{id}/estoque/{produto}
 
-Método: GET
-Retorna mais detalhes de um produto.
+Method: GET
+Returns more details about a product.
 
-- Nome
-- Descrição
-- Quantidade
+- Name
+- Description
+- Quantity
 
 ### /v1/hospitais/{id}/pacientes
 
-Método: GET
-Retorna o nome dos pacientes dentro do hospital.
+Method: GET
+Returns the names of patients at the hospital.
 
 ### /v1/hospitais/{id}/pacientes/{paciente}
 
-Método: GET
-Retorna todas as informações do paciente cadastrado, por exemplo:
+Method: GET
+Returns all information about the registered patient, for example:
 
-- Nome completo
-- CPF
-- Data de nascimento
-- Sexo
-- Data de entrada no hospital.
+- Full name
+- CPF (Brazilian tax ID)
+- Date of birth
+- Gender/Sex
+- Hospital admission date

@@ -22,11 +22,16 @@ import br.com.codenation.hospital.resource.exception.ResourceNotFoundException;
 import br.com.codenation.hospital.services.HospitalService;
 import br.com.codenation.hospital.services.PatientService;
 
-@CrossOrigin("http://localhost:4200") // permissão para o Angular
+/**
+ * Hospital-specific patient management endpoints
+ * Handles patient operations within a hospital context
+ * Base path: /v1/hospitais/{hospital_id}/
+ */
+@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping(path = Constant.V1Path)
 public class PatientResource {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ProductResource.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PatientResource.class);
 
 	@Autowired
 	private PatientService service;
@@ -34,6 +39,10 @@ public class PatientResource {
 	@Autowired
 	private HospitalService hospitalService;
 
+	/**
+	 * Get all patients in a hospital
+	 * GET /v1/hospitais/{hospital_id}/pacientes
+	 */
 	@GetMapping(path = "pacientes")
 	public ResponseEntity<List<Patient>> findPatients(@PathVariable String hospital_id) {
 		try {
@@ -49,6 +58,10 @@ public class PatientResource {
 		}		
 	}
 
+	/**
+	 * Get patient by ID
+	 * GET /v1/hospitais/{hospital_id}/pacientes/{patientId}
+	 */
 	@GetMapping(path = "pacientes/{patientId}")
 	public ResponseEntity<Patient> findPatientById(@PathVariable String hospital_id, @PathVariable String patientId) {
 		try {
@@ -60,6 +73,10 @@ public class PatientResource {
 		}
 	}
 
+	/**
+	 * Check in patient to hospital
+	 * POST /v1/hospitais/{hospital_id}/pacientes/checkin
+	 */
 	@PostMapping(path = "pacientes/checkin", produces = "application/json")
 	public ResponseEntity<Patient> checkinPacient(@PathVariable("hospital_id") String idHospital, @RequestBody Patient patient) {
 		try {
@@ -71,6 +88,10 @@ public class PatientResource {
 		}		
 	}
 
+	/**
+	 * Check out patient from hospital
+	 * POST /v1/hospitais/{hospital_id}/pacientes/checkout
+	 */
 	@PostMapping(path = "pacientes/checkout", produces = "application/json")
 	public ResponseEntity<Patient> checkoutPacient(@PathVariable("hospital_id") String idHospital, @RequestBody String idPatient) {
 		try {
@@ -82,6 +103,10 @@ public class PatientResource {
 		}		
 	}
 
+	/**
+	 * Update patient information
+	 * PUT /v1/hospitais/{hospital_id}/pacientes/{patientId}
+	 */
 	@PutMapping(path = "pacientes/{patientId}")
 	public ResponseEntity<Patient> updatePatient(@PathVariable("hospital_id") String idHospital, @PathVariable String patientId,
 			@RequestBody Patient patient) {

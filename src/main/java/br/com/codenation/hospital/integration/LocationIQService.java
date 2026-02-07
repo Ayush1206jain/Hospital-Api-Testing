@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -23,7 +24,8 @@ import br.com.codenation.hospital.resource.ProductResource;
 public class LocationIQService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(LocationIQService.class);
 	
-	private final String locationKey = "43b382813d8baa";
+	@Value("${locationiq.api.key}")
+	private String locationKey;
 	private final String locationFormat = "json";
 	private final String locationUrl = "https://us1.locationiq.com/v1/search.php";
 
@@ -59,8 +61,9 @@ public class LocationIQService {
 			}
 			
 			if (conn.getResponseCode() != 200) {
-				LOGGER.error("Failed : HTTP error - Error with message: {}", sb.toString());
-				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+				LOGGER.error("LocationIQ API error - Error with message: {}", sb.toString());
+				LOGGER.warn("Could not geocode address: '{}'. Will proceed with default coordinates.", search);
+				return locationsResponse; // Return empty list instead of throwing exception
 			}
 			
 			conn.disconnect();
@@ -70,10 +73,13 @@ public class LocationIQService {
 			
 		  } catch (MalformedURLException e) {
 			 LOGGER.error("getLocationIQResponse - MalformedURLException - Error with message: {}", e.getMessage());
+			 LOGGER.warn("Failed to build LocationIQ URL. Returning empty response.");
 		  } catch (IOException e) {
 			 LOGGER.error("getLocationIQResponse - IOException - Error with message: {}", e.getMessage());
+			 LOGGER.warn("Network error communicating with LocationIQ. Returning empty response.");
 		  } catch (InterruptedException e) {
 			  LOGGER.error("getLocationIQResponse - InterruptedException - Error with message: {}", e.getMessage());
+			  Thread.currentThread().interrupt();
 		}
 		
 		return locationsResponse;

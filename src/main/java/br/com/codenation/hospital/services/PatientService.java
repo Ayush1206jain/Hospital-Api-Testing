@@ -1,5 +1,6 @@
 package br.com.codenation.hospital.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,19 @@ public class PatientService {
 	@Autowired
 	private  PatientRepository repo;
 	
+	public Patient save(Patient obj) {
+		return repo.save(obj);
+	}
+	
 	public Patient findById(String id) {
 		Optional<Patient> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Paciente não encontrado!"));
 	}
+	
+	public List<Patient> findAll() {
+		return repo.findAll();
+	}
+	
 	public Patient update(Patient obj) {
 		return repo.save(obj);
 	}

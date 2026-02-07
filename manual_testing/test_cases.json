@@ -1,0 +1,1417 @@
+{
+  "projectName": "Hospital Management System - API Testing",
+  "baseURL": "http://localhost:8080",
+  "apiVersion": "v1",
+  "totalTestCases": 98,
+  "generatedDate": "2026-02-07",
+  "testCases": [
+    {
+      "testId": "HC-001",
+      "endpoint": "/v1/hospitais/",
+      "method": "POST",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Create hospital with all required fields",
+      "expectedStatusCode": 201,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "id": 100,
+        "name": "Hospital Central São Paulo",
+        "address": "Rua Principal, 123, São Paulo - SP",
+        "beds": 50,
+        "availableBeds": 30,
+        "latitude": "-23.593438",
+        "longitude": "-46.710462"
+      },
+      "expectedResponseFields": [
+        "id",
+        "name",
+        "address",
+        "beds",
+        "availableBeds"
+      ],
+      "assertions": {
+        "statusCode": 201,
+        "bodyContains": ["id", "name"],
+        "fieldValidation": {
+          "name": "Hospital Central São Paulo",
+          "beds": 50
+        }
+      }
+    },
+    {
+      "testId": "HC-002",
+      "endpoint": "/v1/hospitais/",
+      "method": "POST",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Create hospital with minimal beds",
+      "expectedStatusCode": 201,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "id": 101,
+        "name": "Hospital Pequeno",
+        "address": "Rua Pequena, 1",
+        "beds": 5,
+        "availableBeds": 3,
+        "latitude": "-23.5",
+        "longitude": "-46.6"
+      },
+      "expectedResponseFields": ["id", "name"],
+      "assertions": {
+        "statusCode": 201,
+        "fieldValidation": {
+          "beds": 5,
+          "availableBeds": 3
+        }
+      }
+    },
+    {
+      "testId": "HC-003",
+      "endpoint": "/v1/hospitais/",
+      "method": "POST",
+      "category": "VALID",
+      "priority": "MEDIUM",
+      "description": "Create hospital with large bed count",
+      "expectedStatusCode": 201,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "id": 102,
+        "name": "Hospital Mega",
+        "address": "Avenida Grande, 999",
+        "beds": 1000,
+        "availableBeds": 500,
+        "latitude": "-23.6",
+        "longitude": "-46.7"
+      },
+      "expectedResponseFields": ["id", "name"],
+      "assertions": {
+        "statusCode": 201,
+        "fieldValidation": {
+          "beds": 1000
+        }
+      }
+    },
+    {
+      "testId": "HC-004",
+      "endpoint": "/v1/hospitais/",
+      "method": "POST",
+      "category": "VALID",
+      "priority": "MEDIUM",
+      "description": "Create hospital with special characters in name",
+      "expectedStatusCode": 201,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "id": 103,
+        "name": "Hospital Santa Maria's Children's Care",
+        "address": "Rua São João & Avenida Brasil",
+        "beds": 75,
+        "availableBeds": 45,
+        "latitude": "-23.55",
+        "longitude": "-46.65"
+      },
+      "expectedResponseFields": ["id", "name"],
+      "assertions": {
+        "statusCode": 201
+      }
+    },
+    {
+      "testId": "HC-005",
+      "endpoint": "/v1/hospitais/",
+      "method": "POST",
+      "category": "VALID",
+      "priority": "MEDIUM",
+      "description": "Create hospital with zero available beds",
+      "expectedStatusCode": 201,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "id": 104,
+        "name": "Hospital Full",
+        "address": "Rua Lotada, 1",
+        "beds": 100,
+        "availableBeds": 0,
+        "latitude": "-23.5",
+        "longitude": "-46.6"
+      },
+      "expectedResponseFields": ["id", "name"],
+      "assertions": {
+        "statusCode": 201,
+        "fieldValidation": {
+          "availableBeds": 0
+        }
+      }
+    },
+    {
+      "testId": "HC-006",
+      "endpoint": "/v1/hospitais/",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Create hospital with missing name field",
+      "expectedStatusCode": 400,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "id": 105,
+        "address": "Rua Teste, 1",
+        "beds": 50,
+        "availableBeds": 30,
+        "latitude": "-23.5",
+        "longitude": "-46.6"
+      },
+      "expectedResponseFields": ["error", "message"],
+      "assertions": {
+        "statusCode": 400,
+        "errorMessageContains": ["name", "required", "missing"]
+      }
+    },
+    {
+      "testId": "HC-007",
+      "endpoint": "/v1/hospitais/",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Create hospital with empty name",
+      "expectedStatusCode": 400,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "id": 106,
+        "name": "",
+        "address": "Rua Teste, 1",
+        "beds": 50,
+        "availableBeds": 30,
+        "latitude": "-23.5",
+        "longitude": "-46.6"
+      },
+      "expectedResponseFields": ["error"],
+      "assertions": {
+        "statusCode": 400
+      }
+    },
+    {
+      "testId": "HC-008",
+      "endpoint": "/v1/hospitais/",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Create hospital with negative bed count",
+      "expectedStatusCode": 400,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "id": 107,
+        "name": "Hospital Invalid",
+        "address": "Rua Teste, 1",
+        "beds": -10,
+        "availableBeds": 5,
+        "latitude": "-23.5",
+        "longitude": "-46.6"
+      },
+      "expectedResponseFields": ["error"],
+      "assertions": {
+        "statusCode": 400,
+        "errorMessageContains": ["beds", "negative"]
+      }
+    },
+    {
+      "testId": "HC-009",
+      "endpoint": "/v1/hospitais/",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Create hospital with available beds > total beds",
+      "expectedStatusCode": 400,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "id": 108,
+        "name": "Hospital Invalid Logic",
+        "address": "Rua Teste, 1",
+        "beds": 30,
+        "availableBeds": 50,
+        "latitude": "-23.5",
+        "longitude": "-46.6"
+      },
+      "expectedResponseFields": ["error"],
+      "assertions": {
+        "statusCode": 400,
+        "errorMessageContains": ["availableBeds", "greater"]
+      }
+    },
+    {
+      "testId": "HC-010",
+      "endpoint": "/v1/hospitais/",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Create hospital with invalid coordinates (non-numeric)",
+      "expectedStatusCode": 400,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "id": 109,
+        "name": "Hospital Coord Invalid",
+        "address": "Rua Teste, 1",
+        "beds": 50,
+        "availableBeds": 30,
+        "latitude": "invalid",
+        "longitude": "-46.6"
+      },
+      "expectedResponseFields": ["error"],
+      "assertions": {
+        "statusCode": 400,
+        "errorMessageContains": ["latitude", "number"]
+      }
+    },
+    {
+      "testId": "HC-011",
+      "endpoint": "/v1/hospitais/",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Create hospital with missing address",
+      "expectedStatusCode": 400,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "id": 110,
+        "name": "Hospital Sem Endereco",
+        "beds": 50,
+        "availableBeds": 30,
+        "latitude": "-23.5",
+        "longitude": "-46.6"
+      },
+      "expectedResponseFields": ["error"],
+      "assertions": {
+        "statusCode": 400
+      }
+    },
+    {
+      "testId": "HC-012",
+      "endpoint": "/v1/hospitais/",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Create hospital with null name",
+      "expectedStatusCode": 400,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "id": 111,
+        "name": null,
+        "address": "Rua Teste, 1",
+        "beds": 50,
+        "availableBeds": 30,
+        "latitude": "-23.5",
+        "longitude": "-46.6"
+      },
+      "expectedResponseFields": ["error"],
+      "assertions": {
+        "statusCode": 400
+      }
+    },
+    {
+      "testId": "HC-013",
+      "endpoint": "/v1/hospitais/",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Create hospital with missing latitude",
+      "expectedStatusCode": 400,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "id": 112,
+        "name": "Hospital Sem Latitude",
+        "address": "Rua Teste, 1",
+        "beds": 50,
+        "availableBeds": 30,
+        "longitude": "-46.6"
+      },
+      "expectedResponseFields": ["error"],
+      "assertions": {
+        "statusCode": 400
+      }
+    },
+    {
+      "testId": "HC-014",
+      "endpoint": "/v1/hospitais/",
+      "method": "GET",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Get all hospitals - list should be returned",
+      "expectedStatusCode": 200,
+      "requestHeaders": {},
+      "requestBody": null,
+      "expectedResponseFields": [],
+      "assertions": {
+        "statusCode": 200,
+        "responseIsArray": true,
+        "arrayContains": "id"
+      }
+    },
+    {
+      "testId": "HC-015",
+      "endpoint": "/v1/hospitais/{id}",
+      "method": "GET",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Get single hospital by valid ID",
+      "expectedStatusCode": 200,
+      "pathParameter": {
+        "id": 1
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "expectedResponseFields": ["id", "name", "address", "beds"],
+      "assertions": {
+        "statusCode": 200,
+        "responseContains": "id",
+        "fieldValidation": {
+          "id": 1
+        }
+      }
+    },
+    {
+      "testId": "HC-016",
+      "endpoint": "/v1/hospitais/{id}",
+      "method": "GET",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Get hospital with non-existent ID",
+      "expectedStatusCode": 404,
+      "pathParameter": {
+        "id": 99999
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "expectedResponseFields": ["error", "message"],
+      "assertions": {
+        "statusCode": 404,
+        "errorMessageContains": ["not found", "not exist"]
+      }
+    },
+    {
+      "testId": "HC-017",
+      "endpoint": "/v1/hospitais/{id}",
+      "method": "GET",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Get hospital with invalid ID format",
+      "expectedStatusCode": 400,
+      "pathParameter": {
+        "id": "invalid-id"
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 400
+      }
+    },
+    {
+      "testId": "HC-018",
+      "endpoint": "/v1/hospitais/{id}",
+      "method": "PUT",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Update hospital with all fields",
+      "expectedStatusCode": 200,
+      "pathParameter": {
+        "id": 1
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "name": "Hospital Updated Name",
+        "address": "Rua Atualizada, 456",
+        "beds": 75,
+        "availableBeds": 50,
+        "latitude": "-23.6",
+        "longitude": "-46.7"
+      },
+      "expectedResponseFields": ["id", "name", "address"],
+      "assertions": {
+        "statusCode": 200,
+        "fieldValidation": {
+          "name": "Hospital Updated Name",
+          "beds": 75
+        }
+      }
+    },
+    {
+      "testId": "HC-019",
+      "endpoint": "/v1/hospitais/{id}",
+      "method": "PUT",
+      "category": "VALID",
+      "priority": "MEDIUM",
+      "description": "Update hospital with only name change",
+      "expectedStatusCode": 200,
+      "pathParameter": {
+        "id": 1
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "name": "New Name Only"
+      },
+      "expectedResponseFields": ["id", "name"],
+      "assertions": {
+        "statusCode": 200,
+        "fieldValidation": {
+          "name": "New Name Only"
+        }
+      }
+    },
+    {
+      "testId": "HC-020",
+      "endpoint": "/v1/hospitais/{id}",
+      "method": "PUT",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Update hospital with non-existent ID",
+      "expectedStatusCode": 404,
+      "pathParameter": {
+        "id": 99999
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "name": "Should Not Update"
+      },
+      "assertions": {
+        "statusCode": 404
+      }
+    },
+    {
+      "testId": "HC-021",
+      "endpoint": "/v1/hospitais/{id}",
+      "method": "PUT",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Update hospital with available beds > total beds",
+      "expectedStatusCode": 400,
+      "pathParameter": {
+        "id": 1
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "beds": 30,
+        "availableBeds": 50
+      },
+      "assertions": {
+        "statusCode": 400,
+        "errorMessageContains": ["availableBeds"]
+      }
+    },
+    {
+      "testId": "HC-022",
+      "endpoint": "/v1/hospitais/{id}",
+      "method": "PUT",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Update hospital with empty name",
+      "expectedStatusCode": 400,
+      "pathParameter": {
+        "id": 1
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "name": ""
+      },
+      "assertions": {
+        "statusCode": 400
+      }
+    },
+    {
+      "testId": "HC-023",
+      "endpoint": "/v1/hospitais/{id}/leitos",
+      "method": "GET",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Get beds/leitos for existing hospital",
+      "expectedStatusCode": 200,
+      "pathParameter": {
+        "id": 1
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 200,
+        "responseIsArray": true
+      }
+    },
+    {
+      "testId": "HC-024",
+      "endpoint": "/v1/hospitais/{id}/leitos",
+      "method": "GET",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Get beds for non-existent hospital",
+      "expectedStatusCode": 404,
+      "pathParameter": {
+        "id": 99999
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 404
+      }
+    },
+    {
+      "testId": "HC-025",
+      "endpoint": "/v1/hospitais/maisProximo",
+      "method": "GET",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Find nearest hospital with valid coordinates",
+      "expectedStatusCode": 200,
+      "queryParameters": {
+        "lat": "-23.593438",
+        "lon": "-46.710462",
+        "raioMaximo": "10"
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 200,
+        "responseContains": "id"
+      }
+    },
+    {
+      "testId": "HC-026",
+      "endpoint": "/v1/hospitais/maisProximo",
+      "method": "GET",
+      "category": "VALID",
+      "priority": "MEDIUM",
+      "description": "Find nearest hospital with larger radius",
+      "expectedStatusCode": 200,
+      "queryParameters": {
+        "lat": "-23.593438",
+        "lon": "-46.710462",
+        "raioMaximo": "50"
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 200
+      }
+    },
+    {
+      "testId": "HC-027",
+      "endpoint": "/v1/hospitais/maisProximo",
+      "method": "GET",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Find nearest without latitude parameter",
+      "expectedStatusCode": 400,
+      "queryParameters": {
+        "lon": "-46.710462",
+        "raioMaximo": "10"
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 400,
+        "errorMessageContains": ["lat", "required"]
+      }
+    },
+    {
+      "testId": "HC-028",
+      "endpoint": "/v1/hospitais/maisProximo",
+      "method": "GET",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Find nearest without longitude parameter",
+      "expectedStatusCode": 400,
+      "queryParameters": {
+        "lat": "-23.593438",
+        "raioMaximo": "10"
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 400,
+        "errorMessageContains": ["lon", "required"]
+      }
+    },
+    {
+      "testId": "HC-029",
+      "endpoint": "/v1/hospitais/maisProximo",
+      "method": "GET",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Find nearest with invalid latitude format",
+      "expectedStatusCode": 400,
+      "queryParameters": {
+        "lat": "invalid",
+        "lon": "-46.710462",
+        "raioMaximo": "10"
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 400
+      }
+    },
+    {
+      "testId": "HC-030",
+      "endpoint": "/v1/hospitais/maisProximo",
+      "method": "GET",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Find nearest with negative radius",
+      "expectedStatusCode": 400,
+      "queryParameters": {
+        "lat": "-23.593438",
+        "lon": "-46.710462",
+        "raioMaximo": "-10"
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 400
+      }
+    },
+    {
+      "testId": "EST-001",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque",
+      "method": "GET",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Get inventory list for existing hospital",
+      "expectedStatusCode": 200,
+      "pathParameter": {
+        "hospitalId": 1
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 200,
+        "responseIsArray": true
+      }
+    },
+    {
+      "testId": "EST-002",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque",
+      "method": "GET",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Get inventory for non-existent hospital",
+      "expectedStatusCode": 404,
+      "pathParameter": {
+        "hospitalId": 99999
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 404
+      }
+    },
+    {
+      "testId": "EST-003",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque",
+      "method": "POST",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Add product to inventory with all fields",
+      "expectedStatusCode": 201,
+      "pathParameter": {
+        "hospitalId": 1
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "name": "Curativos Premium",
+        "description": "Curativos com proteção extra",
+        "quantity": 100,
+        "productType": "COMMON"
+      },
+      "expectedResponseFields": ["id", "name", "quantity"],
+      "assertions": {
+        "statusCode": 201,
+        "fieldValidation": {
+          "name": "Curativos Premium",
+          "quantity": 100
+        }
+      }
+    },
+    {
+      "testId": "EST-004",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque",
+      "method": "POST",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Add blood product to inventory",
+      "expectedStatusCode": 201,
+      "pathParameter": {
+        "hospitalId": 1
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "name": "Blood Type O+",
+        "description": "O+ blood units",
+        "quantity": 50,
+        "productType": "BLOOD"
+      },
+      "expectedResponseFields": ["id", "name"],
+      "assertions": {
+        "statusCode": 201,
+        "fieldValidation": {
+          "productType": "BLOOD"
+        }
+      }
+    },
+    {
+      "testId": "EST-005",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque",
+      "method": "POST",
+      "category": "VALID",
+      "priority": "MEDIUM",
+      "description": "Add product with large quantity",
+      "expectedStatusCode": 201,
+      "pathParameter": {
+        "hospitalId": 1
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "name": "Seringa 10ml",
+        "description": "Seringas para injeção",
+        "quantity": 10000,
+        "productType": "COMMON"
+      },
+      "assertions": {
+        "statusCode": 201
+      }
+    },
+    {
+      "testId": "EST-006",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque",
+      "method": "POST",
+      "category": "VALID",
+      "priority": "MEDIUM",
+      "description": "Add product with minimum quantity",
+      "expectedStatusCode": 201,
+      "pathParameter": {
+        "hospitalId": 1
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "name": "Produto Raro",
+        "description": "Produto com quantidade mínima",
+        "quantity": 1,
+        "productType": "COMMON"
+      },
+      "assertions": {
+        "statusCode": 201,
+        "fieldValidation": {
+          "quantity": 1
+        }
+      }
+    },
+    {
+      "testId": "EST-007",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Add product to non-existent hospital",
+      "expectedStatusCode": 404,
+      "pathParameter": {
+        "hospitalId": 99999
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "name": "Curativos",
+        "description": "Test",
+        "quantity": 50,
+        "productType": "COMMON"
+      },
+      "assertions": {
+        "statusCode": 404
+      }
+    },
+    {
+      "testId": "EST-008",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Add product with missing name",
+      "expectedStatusCode": 400,
+      "pathParameter": {
+        "hospitalId": 1
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "description": "Produto sem nome",
+        "quantity": 50,
+        "productType": "COMMON"
+      },
+      "assertions": {
+        "statusCode": 400,
+        "errorMessageContains": ["name"]
+      }
+    },
+    {
+      "testId": "EST-009",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Add product with negative quantity",
+      "expectedStatusCode": 400,
+      "pathParameter": {
+        "hospitalId": 1
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "name": "Invalid Product",
+        "description": "Produto com quantidade negativa",
+        "quantity": -50,
+        "productType": "COMMON"
+      },
+      "assertions": {
+        "statusCode": 400,
+        "errorMessageContains": ["quantity"]
+      }
+    },
+    {
+      "testId": "EST-010",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Add product with empty name",
+      "expectedStatusCode": 400,
+      "pathParameter": {
+        "hospitalId": 1
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "name": "",
+        "description": "Empty name product",
+        "quantity": 50,
+        "productType": "COMMON"
+      },
+      "assertions": {
+        "statusCode": 400
+      }
+    },
+    {
+      "testId": "EST-011",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Add product with missing quantity",
+      "expectedStatusCode": 400,
+      "pathParameter": {
+        "hospitalId": 1
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "name": "Produto",
+        "description": "Sem quantidade",
+        "productType": "COMMON"
+      },
+      "assertions": {
+        "statusCode": 400
+      }
+    },
+    {
+      "testId": "EST-012",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque/{productId}",
+      "method": "PUT",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Update product in inventory",
+      "expectedStatusCode": 200,
+      "pathParameter": {
+        "hospitalId": 1,
+        "productId": "5cac077fa9c6543dc892fdf9"
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "name": "Curativos Atualizados",
+        "description": "Curativos com preço atualizado",
+        "quantity": 75,
+        "productType": "COMMON"
+      },
+      "assertions": {
+        "statusCode": 200,
+        "fieldValidation": {
+          "name": "Curativos Atualizados"
+        }
+      }
+    },
+    {
+      "testId": "EST-013",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque/{productId}",
+      "method": "PUT",
+      "category": "VALID",
+      "priority": "MEDIUM",
+      "description": "Update product quantity only",
+      "expectedStatusCode": 200,
+      "pathParameter": {
+        "hospitalId": 1,
+        "productId": "5cac077fa9c6543dc892fdf9"
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "quantity": 150
+      },
+      "assertions": {
+        "statusCode": 200
+      }
+    },
+    {
+      "testId": "EST-014",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque/{productId}",
+      "method": "PUT",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Update product in non-existent hospital",
+      "expectedStatusCode": 404,
+      "pathParameter": {
+        "hospitalId": 99999,
+        "productId": "5cac077fa9c6543dc892fdf9"
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "quantity": 50
+      },
+      "assertions": {
+        "statusCode": 404
+      }
+    },
+    {
+      "testId": "EST-015",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque/{productId}",
+      "method": "PUT",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Update non-existent product",
+      "expectedStatusCode": 404,
+      "pathParameter": {
+        "hospitalId": 1,
+        "productId": "nonexistent123456789012"
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "quantity": 50
+      },
+      "assertions": {
+        "statusCode": 404
+      }
+    },
+    {
+      "testId": "EST-016",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque/{productId}",
+      "method": "PUT",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Update product with negative quantity",
+      "expectedStatusCode": 400,
+      "pathParameter": {
+        "hospitalId": 1,
+        "productId": "5cac077fa9c6543dc892fdf9"
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "quantity": -50
+      },
+      "assertions": {
+        "statusCode": 400
+      }
+    },
+    {
+      "testId": "EST-017",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque/{productId}",
+      "method": "DELETE",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Delete product from inventory",
+      "expectedStatusCode": 204,
+      "pathParameter": {
+        "hospitalId": 1,
+        "productId": "5cac077fa9c6543dc892fdf9"
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 204
+      }
+    },
+    {
+      "testId": "EST-018",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque/{productId}",
+      "method": "DELETE",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Delete product from non-existent hospital",
+      "expectedStatusCode": 404,
+      "pathParameter": {
+        "hospitalId": 99999,
+        "productId": "5cac077fa9c6543dc892fdf9"
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 404
+      }
+    },
+    {
+      "testId": "EST-019",
+      "endpoint": "/v1/hospitais/{hospitalId}/estoque/{productId}",
+      "method": "DELETE",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Delete non-existent product",
+      "expectedStatusCode": 404,
+      "pathParameter": {
+        "hospitalId": 1,
+        "productId": "nonexistent123456789012"
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 404
+      }
+    },
+    {
+      "testId": "PAC-001",
+      "endpoint": "/v1/pacientes/",
+      "method": "POST",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Create patient with all required fields",
+      "expectedStatusCode": 201,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "firstName": "João",
+        "lastName": "Silva",
+        "email": "joao.silva@email.com",
+        "phone": "11987654321",
+        "address": "Rua A, 100"
+      },
+      "expectedResponseFields": ["id", "firstName", "lastName"],
+      "assertions": {
+        "statusCode": 201,
+        "fieldValidation": {
+          "firstName": "João",
+          "email": "joao.silva@email.com"
+        }
+      }
+    },
+    {
+      "testId": "PAC-002",
+      "endpoint": "/v1/pacientes/",
+      "method": "POST",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Create patient with special characters in name",
+      "expectedStatusCode": 201,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "firstName": "José",
+        "lastName": "Pereira da Silva",
+        "email": "jose.pereira@email.com",
+        "phone": "11987654322",
+        "address": "Rua B, 200"
+      },
+      "assertions": {
+        "statusCode": 201
+      }
+    },
+    {
+      "testId": "PAC-003",
+      "endpoint": "/v1/pacientes/",
+      "method": "POST",
+      "category": "VALID",
+      "priority": "MEDIUM",
+      "description": "Create patient with only required fields",
+      "expectedStatusCode": 201,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "firstName": "Maria",
+        "lastName": "Santos"
+      },
+      "assertions": {
+        "statusCode": 201
+      }
+    },
+    {
+      "testId": "PAC-004",
+      "endpoint": "/v1/pacientes/",
+      "method": "POST",
+      "category": "VALID",
+      "priority": "MEDIUM",
+      "description": "Create patient with long name",
+      "expectedStatusCode": 201,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "firstName": "Alexandre",
+        "lastName": "Gonçalves Albuquerque Ferreira",
+        "email": "alexandre@email.com",
+        "phone": "11987654323"
+      },
+      "assertions": {
+        "statusCode": 201
+      }
+    },
+    {
+      "testId": "PAC-005",
+      "endpoint": "/v1/pacientes/",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Create patient with missing firstName",
+      "expectedStatusCode": 400,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "lastName": "Silva",
+        "email": "patient@email.com",
+        "phone": "11987654324"
+      },
+      "assertions": {
+        "statusCode": 400,
+        "errorMessageContains": ["firstName"]
+      }
+    },
+    {
+      "testId": "PAC-006",
+      "endpoint": "/v1/pacientes/",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Create patient with missing lastName",
+      "expectedStatusCode": 400,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "firstName": "João",
+        "email": "patient@email.com",
+        "phone": "11987654325"
+      },
+      "assertions": {
+        "statusCode": 400,
+        "errorMessageContains": ["lastName"]
+      }
+    },
+    {
+      "testId": "PAC-007",
+      "endpoint": "/v1/pacientes/",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Create patient with invalid email format",
+      "expectedStatusCode": 400,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "firstName": "João",
+        "lastName": "Silva",
+        "email": "invalid-email",
+        "phone": "11987654326"
+      },
+      "assertions": {
+        "statusCode": 400,
+        "errorMessageContains": ["email"]
+      }
+    },
+    {
+      "testId": "PAC-008",
+      "endpoint": "/v1/pacientes/",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Create patient with empty firstName",
+      "expectedStatusCode": 400,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "firstName": "",
+        "lastName": "Silva"
+      },
+      "assertions": {
+        "statusCode": 400
+      }
+    },
+    {
+      "testId": "PAC-009",
+      "endpoint": "/v1/pacientes/",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Create patient with null firstName",
+      "expectedStatusCode": 400,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "firstName": null,
+        "lastName": "Silva"
+      },
+      "assertions": {
+        "statusCode": 400
+      }
+    },
+    {
+      "testId": "PAC-010",
+      "endpoint": "/v1/pacientes/",
+      "method": "POST",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Create patient with invalid phone format",
+      "expectedStatusCode": 400,
+      "requestHeaders": {
+        "Content-Type": "application/json"
+      },
+      "requestBody": {
+        "firstName": "João",
+        "lastName": "Silva",
+        "email": "joao@email.com",
+        "phone": "invalid"
+      },
+      "assertions": {
+        "statusCode": 400,
+        "errorMessageContains": ["phone"]
+      }
+    },
+    {
+      "testId": "PAC-011",
+      "endpoint": "/v1/pacientes/",
+      "method": "GET",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Get all patients list",
+      "expectedStatusCode": 200,
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 200,
+        "responseIsArray": true
+      }
+    },
+    {
+      "testId": "PAC-012",
+      "endpoint": "/v1/pacientes/{id}",
+      "method": "GET",
+      "category": "VALID",
+      "priority": "HIGH",
+      "description": "Get patient by valid ID",
+      "expectedStatusCode": 200,
+      "pathParameter": {
+        "id": 1
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "expectedResponseFields": ["id", "firstName", "lastName"],
+      "assertions": {
+        "statusCode": 200,
+        "responseContains": "id"
+      }
+    },
+    {
+      "testId": "PAC-013",
+      "endpoint": "/v1/pacientes/{id}",
+      "method": "GET",
+      "category": "INVALID",
+      "priority": "HIGH",
+      "description": "Get patient with non-existent ID",
+      "expectedStatusCode": 404,
+      "pathParameter": {
+        "id": 99999
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 404,
+        "errorMessageContains": ["not found"]
+      }
+    },
+    {
+      "testId": "PAC-014",
+      "endpoint": "/v1/pacientes/{id}",
+      "method": "GET",
+      "category": "INVALID",
+      "priority": "MEDIUM",
+      "description": "Get patient with invalid ID format",
+      "expectedStatusCode": 400,
+      "pathParameter": {
+        "id": "invalid"
+      },
+      "requestHeaders": {},
+      "requestBody": null,
+      "assertions": {
+        "statusCode": 400
+      }
+    }
+  ]
+}

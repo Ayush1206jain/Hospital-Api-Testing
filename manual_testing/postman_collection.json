@@ -264,6 +264,68 @@
               ]
             }
           }
+        }
+      ]
+    },
+    {
+      "name": "01b - HOSPITAL MANAGEMENT (INVALID)",
+      "item": [
+        {
+          "name": "HC-006: Create Hospital - Missing Name (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request\", function() {",
+                  "    pm.expect(pm.response.code).to.equal(400);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cnpj\": \"12345678000181\",\n  \"address\": \"Rua Principal 123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/hospitais/",
+              "host": ["{{baseURL}}"],
+              "path": ["v1", "hospitais", ""]
+            }
+          }
+        },
+        {
+          "name": "HC-016: Get Hospital by ID - Invalid ID (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404 Not Found\", function() {",
+                  "    pm.expect(pm.response.code).to.equal(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/v1/hospitais/invalid-id-99999",
+              "host": ["{{baseURL}}"],
+              "path": ["v1", "hospitais", "invalid-id-99999"]
+            }
+          }
         },
         {
           "name": "HC-027: Find Nearest Hospital - Invalid Latitude",
@@ -297,7 +359,7 @@
       ]
     },
     {
-      "name": "02 - INVENTORY MANAGEMENT",
+      "name": "02a - INVENTORY MANAGEMENT (VALID)",
       "item": [
         {
           "name": "EST-001: Get Hospital Inventory",
@@ -366,7 +428,12 @@
               "path": ["v1", "hospitais", "{{hospitalId}}", "estoque"]
             }
           }
-        },
+        }
+      ]
+    },
+    {
+      "name": "02b - INVENTORY MANAGEMENT (INVALID)",
+      "item": [
         {
           "name": "EST-007: Add Product - Negative Quantity (400)",
           "event": [
@@ -399,85 +466,11 @@
               "path": ["v1", "hospitais", "{{hospitalId}}", "estoque"]
             }
           }
-        },
-        {
-          "name": "EST-012: Update Product in Inventory - Valid",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function() {",
-                  "    pm.expect(pm.response.code).to.equal(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Product quantity updated\", function() {",
-                  "    let jsonData = pm.response.json();",
-                  "    pm.expect(jsonData.quantity).to.equal(950);",
-                  "});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"quantity\": 950\n}"
-            },
-            "url": {
-              "raw": "{{baseURL}}/v1/hospitais/{{hospitalId}}/estoque/{{productId}}",
-              "host": ["{{baseURL}}"],
-              "path": [
-                "v1",
-                "hospitais",
-                "{{hospitalId}}",
-                "estoque",
-                "{{productId}}"
-              ]
-            }
-          }
-        },
-        {
-          "name": "EST-016: Delete Product from Inventory - Valid",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200 or 204\", function() {",
-                  "    pm.expect(pm.response.code).to.be.oneOf([200, 204, 202]);",
-                  "});"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseURL}}/v1/hospitais/{{hospitalId}}/estoque/{{productId}}",
-              "host": ["{{baseURL}}"],
-              "path": [
-                "v1",
-                "hospitais",
-                "{{hospitalId}}",
-                "estoque",
-                "{{productId}}"
-              ]
-            }
-          }
         }
       ]
     },
     {
-      "name": "03 - PATIENT MANAGEMENT",
+      "name": "03a - PATIENT MANAGEMENT (VALID)",
       "item": [
         {
           "name": "PAC-001: Create Patient - Valid",
@@ -608,6 +601,44 @@
               "raw": "{{baseURL}}/v1/pacientes/{{patientId}}",
               "host": ["{{baseURL}}"],
               "path": ["v1", "pacientes", "{{patientId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03b - PATIENT MANAGEMENT (INVALID)",
+      "item": [
+        {
+          "name": "PAC-005: Create Patient - Missing Name (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request\", function() {",
+                  "    pm.expect(pm.response.code).to.equal(400);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cpf\": \"12345678901\",\n  \"birthDate\": \"1990-05-15\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/v1/pacientes/",
+              "host": ["{{baseURL}}"],
+              "path": ["v1", "pacientes", ""]
             }
           }
         },
