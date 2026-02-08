@@ -1,0 +1,703 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Hospital Management System API",
+    "description": "REST API for Hospital Management System with endpoints for managing hospitals, inventory, and patients",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Hospital Management Team"
+    }
+  },
+  "basePath": "/api",
+  "host": "localhost:8080",
+  "schemes": ["http", "https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/v1/hospitais/": {
+      "get": {
+        "summary": "List all hospitals",
+        "description": "Get a list of all hospitals in the system",
+        "operationId": "getAllHospitals",
+        "tags": ["Hospitals"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success - returns list of hospitals",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Hospital"
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new hospital",
+        "description": "Create a new hospital with basic information",
+        "operationId": "createHospital",
+        "tags": ["Hospitals"],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "hospital",
+            "description": "Hospital object that needs to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HospitalInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hospital created successfully",
+            "schema": {
+              "$ref": "#/definitions/Hospital"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Hospital"
+            }
+          },
+          "400": {
+            "description": "Invalid input - missing or wrong data types"
+          },
+          "409": {
+            "description": "Conflict - hospital already exists"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/v1/hospitais/{id}": {
+      "get": {
+        "summary": "Get hospital by ID",
+        "description": "Retrieve a specific hospital by its ID",
+        "operationId": "getHospitalById",
+        "tags": ["Hospitals"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of hospital to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success - returns hospital data",
+            "schema": {
+              "$ref": "#/definitions/Hospital"
+            }
+          },
+          "404": {
+            "description": "Hospital not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update hospital",
+        "description": "Update hospital information by ID",
+        "operationId": "updateHospital",
+        "tags": ["Hospitals"],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of hospital to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "hospital",
+            "description": "Updated hospital data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HospitalInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hospital updated successfully",
+            "schema": {
+              "$ref": "#/definitions/Hospital"
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Hospital not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete hospital",
+        "description": "Delete a hospital by ID",
+        "operationId": "deleteHospital",
+        "tags": ["Hospitals"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of hospital to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Hospital deleted successfully"
+          },
+          "404": {
+            "description": "Hospital not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/v1/hospitais/maisProximo": {
+      "get": {
+        "summary": "Find nearest hospital",
+        "description": "Find the nearest hospital based on coordinates",
+        "operationId": "findNearestHospital",
+        "tags": ["Hospitals"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "description": "User latitude",
+            "required": true,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "description": "User longitude",
+            "required": true,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "description": "Search radius in km (optional)",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Nearest hospital found",
+            "schema": {
+              "$ref": "#/definitions/Hospital"
+            }
+          },
+          "400": {
+            "description": "Invalid coordinates"
+          },
+          "404": {
+            "description": "No hospital found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/v1/hospitais/{hospitalId}/estoque": {
+      "get": {
+        "summary": "List hospital inventory",
+        "description": "Get inventory items for a specific hospital",
+        "operationId": "getHospitalInventory",
+        "tags": ["Inventory"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "hospitalId",
+            "in": "path",
+            "description": "Hospital ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success - returns inventory items",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/InventoryItem"
+              }
+            }
+          },
+          "404": {
+            "description": "Hospital not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add inventory item",
+        "description": "Add a new product to hospital inventory",
+        "operationId": "addInventoryItem",
+        "tags": ["Inventory"],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "hospitalId",
+            "in": "path",
+            "description": "Hospital ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "item",
+            "description": "Inventory item to add",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InventoryItemInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Inventory item created",
+            "schema": {
+              "$ref": "#/definitions/InventoryItem"
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Hospital not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/v1/hospitais/{hospitalId}/estoque/{productId}": {
+      "put": {
+        "summary": "Update inventory item",
+        "description": "Update quantity or details of an inventory item",
+        "operationId": "updateInventoryItem",
+        "tags": ["Inventory"],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "hospitalId",
+            "in": "path",
+            "description": "Hospital ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "Product ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "item",
+            "description": "Updated inventory item",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InventoryItemInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Inventory item updated",
+            "schema": {
+              "$ref": "#/definitions/InventoryItem"
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Hospital or product not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete inventory item",
+        "description": "Remove a product from hospital inventory",
+        "operationId": "deleteInventoryItem",
+        "tags": ["Inventory"],
+        "parameters": [
+          {
+            "name": "hospitalId",
+            "in": "path",
+            "description": "Hospital ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "Product ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Inventory item deleted"
+          },
+          "404": {
+            "description": "Hospital or product not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/v1/pacientes/": {
+      "get": {
+        "summary": "List all patients",
+        "description": "Get a list of all patients",
+        "operationId": "getAllPatients",
+        "tags": ["Patients"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Success - returns list of patients",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Patient"
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new patient",
+        "description": "Register a new patient in the system",
+        "operationId": "createPatient",
+        "tags": ["Patients"],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "patient",
+            "description": "Patient object to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatientInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Patient created successfully",
+            "schema": {
+              "$ref": "#/definitions/Patient"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Patient"
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/v1/pacientes/{id}": {
+      "get": {
+        "summary": "Get patient by ID",
+        "description": "Retrieve a specific patient by ID",
+        "operationId": "getPatientById",
+        "tags": ["Patients"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Patient ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Patient"
+            }
+          },
+          "404": {
+            "description": "Patient not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Hospital": {
+      "type": "object",
+      "required": ["id", "name", "address", "beds"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique hospital identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Hospital name",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "address": {
+          "type": "string",
+          "description": "Hospital address",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "beds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Total number of beds"
+        },
+        "availableBeds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of available beds"
+        },
+        "location": {
+          "$ref": "#/definitions/Location"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "double",
+          "description": "Geographic latitude"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double",
+          "description": "Geographic longitude"
+        }
+      }
+    },
+    "HospitalInput": {
+      "type": "object",
+      "required": ["name", "address", "beds"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Hospital name",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "address": {
+          "type": "string",
+          "description": "Hospital address",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "beds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Total number of beds"
+        },
+        "availableBeds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of available beds"
+        },
+        "location": {
+          "$ref": "#/definitions/Location"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "Location": {
+      "type": "object",
+      "properties": {
+        "referenceId": {
+          "type": "string"
+        },
+        "locationCategory": {
+          "type": "string",
+          "enum": ["HOSPITAL", "CLINIC", "LAB"]
+        },
+        "name": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "InventoryItem": {
+      "type": "object",
+      "required": ["id", "name", "quantity"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Product ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Product name"
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Quantity in stock"
+        },
+        "type": {
+          "type": "string",
+          "description": "Product type"
+        },
+        "expiryDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Product expiry date"
+        }
+      }
+    },
+    "InventoryItemInput": {
+      "type": "object",
+      "required": ["name", "quantity"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Product name",
+          "minLength": 1
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Quantity"
+        },
+        "type": {
+          "type": "string",
+          "description": "Product type"
+        },
+        "expiryDate": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "Patient": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Patient ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Patient name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Patient email"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Patient phone number"
+        },
+        "address": {
+          "type": "string",
+          "description": "Patient address"
+        }
+      }
+    },
+    "PatientInput": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string",
+          "maxLength": 500
+        }
+      }
+    }
+  }
+}
