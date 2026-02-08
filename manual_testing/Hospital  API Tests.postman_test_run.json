@@ -1,0 +1,930 @@
+{
+	"id": "1381f75b-c8fb-4f6d-9dbd-e0905cf51a08",
+	"name": "Hospital Management System API Tests",
+	"timestamp": "2026-02-08T10:47:59.167Z",
+	"collection_id": "a76f6ec8-6f7d-4951-ac78-aed9a5be7162",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 32,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-02-08T10:47:53.806Z",
+	"totalFail": 11,
+	"results": [
+		{
+			"id": "22624bca-a0bc-4bab-9fd3-9c96c7b7735e",
+			"name": "[VALID] Create hospital with all fields",
+			"url": "http://localhost:8080/v1/hospitais/",
+			"time": 1931,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 200": true,
+				"Response should contain hospital data": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should contain hospital data": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1931
+			],
+			"allTests": [
+				{
+					"Status code should be 200": true,
+					"Response should contain hospital data": true
+				}
+			]
+		},
+		{
+			"id": "23e0168c-674f-4991-b5e4-2d81dea5fbe2",
+			"name": "[VALID] List all hospitals",
+			"url": "http://localhost:8080/v1/hospitais/",
+			"time": 20,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 200": true,
+				"Response should be an array": true,
+				"Should return at least 3 hospitals": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should be an array": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Should return at least 3 hospitals": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				20
+			],
+			"allTests": [
+				{
+					"Status code should be 200": true,
+					"Response should be an array": true,
+					"Should return at least 3 hospitals": true
+				}
+			]
+		},
+		{
+			"id": "5a0e5173-c031-493e-9a6c-2bba4cf67548",
+			"name": "[VALID] Get single hospital",
+			"url": "http://localhost:8080/v1/hospitais/698863b32270bb483c551fe2",
+			"time": 13,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 200": true,
+				"Response should contain hospital details": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should contain hospital details": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Status code should be 200": true,
+					"Response should contain hospital details": true
+				}
+			]
+		},
+		{
+			"id": "6337487a-1f4a-42ad-8706-1dafdb50184e",
+			"name": "[VALID] Update hospital",
+			"url": "http://localhost:8080/v1/hospitais/698863b32270bb483c551fe2",
+			"time": 15,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 200": true,
+				"Hospital should be updated": false
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Hospital should be updated": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"Status code should be 200": true,
+					"Hospital should be updated": false
+				}
+			]
+		},
+		{
+			"id": "00b4f69e-8696-498a-99e7-5a426b3eedb2",
+			"name": "[VALID] Get available beds",
+			"url": "http://localhost:8080/v1/hospitais/6988636a2270bb483c551fe0/leitos",
+			"time": 18,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 200": true,
+				"Response should contain leitos property": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should contain leitos property": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				18
+			],
+			"allTests": [
+				{
+					"Status code should be 200": true,
+					"Response should contain leitos property": true
+				}
+			]
+		},
+		{
+			"id": "60b49f65-39ae-4691-be78-d8c739126b9b",
+			"name": "[VALID] Find nearest hospital",
+			"url": "http://localhost:8080/v1/hospitais/maisProximo?lat=22.7203616&lon=75.8681996&raioMaximo=10",
+			"time": 14,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code should be 200": false,
+				"Response should contain hospital": false
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Response should contain hospital": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				14
+			],
+			"allTests": [
+				{
+					"Status code should be 200": false,
+					"Response should contain hospital": false
+				}
+			]
+		},
+		{
+			"id": "9bf6a0e5-a3b8-4205-9f1b-552ed99d7695",
+			"name": "[INVALID] Create hospital - missing name",
+			"url": "http://localhost:8080/v1/hospitais/",
+			"time": 7,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code should be 400": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Status code should be 400": true
+				}
+			]
+		},
+		{
+			"id": "9f6e45a3-df82-4440-8dc9-309f9b804333",
+			"name": "[INVALID] Create hospital - negative beds",
+			"url": "http://localhost:8080/v1/hospitais/",
+			"time": 12,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code should be 400": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Status code should be 400": true
+				}
+			]
+		},
+		{
+			"id": "4085b280-27fd-49ff-b0cb-86e8ab494c8d",
+			"name": "[INVALID] Get hospital - non-existent ID",
+			"url": "http://localhost:8080/v1/hospitais/999999",
+			"time": 12,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code should be 404": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Status code should be 404": true
+				}
+			]
+		},
+		{
+			"id": "cf8ea75c-a308-4a63-87d1-d3654ec86b30",
+			"name": "[VALID] Add product to inventory",
+			"url": "http://localhost:8080/v1/hospitais/1/estoque",
+			"time": 22,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 200": true,
+				"Product should be created": false
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Product should be created": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				22
+			],
+			"allTests": [
+				{
+					"Status code should be 200": true,
+					"Product should be created": false
+				}
+			]
+		},
+		{
+			"id": "6ccc826b-e07a-4137-b5b8-c6af22b185e5",
+			"name": "[VALID] List inventory items",
+			"url": "http://localhost:8080/v1/hospitais/1/estoque",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 200": true,
+				"Response should be an array": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should be an array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Status code should be 200": true,
+					"Response should be an array": true
+				}
+			]
+		},
+		{
+			"id": "41e057b1-d465-44f6-9b87-cee801492858",
+			"name": "[VALID] Get product details",
+			"url": "http://localhost:8080/v1/hospitais/1/estoque/698866f22270bb483c551fe3",
+			"time": 10,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 200": true,
+				"Product should have required fields": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Product should have required fields": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"Status code should be 200": true,
+					"Product should have required fields": true
+				}
+			]
+		},
+		{
+			"id": "67418060-cefe-4d5d-b8d7-abdbe33e589d",
+			"name": "[VALID] Update product quantity",
+			"url": "http://localhost:8080/v1/hospitais/1/estoque/507f1f77bcf86cd799439011",
+			"time": 9,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code should be 200": false,
+				"Quantity should be updated": false
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Quantity should be updated": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Status code should be 200": false,
+					"Quantity should be updated": false
+				}
+			]
+		},
+		{
+			"id": "b2ff7afa-0653-4e8c-a993-566a7dcb150d",
+			"name": "[INVALID] Add product - negative quantity",
+			"url": "http://localhost:8080/v1/hospitais/1/estoque",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 400": false
+			},
+			"testPassFailCounts": {
+				"Status code should be 400": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Status code should be 400": false
+				}
+			]
+		},
+		{
+			"id": "8f52ac60-064c-414b-9696-fcd173803ddd",
+			"name": "[INVALID] Add product to non-existent hospital",
+			"url": "http://localhost:8080/v1/hospitais/999999/estoque",
+			"time": 9,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code should be 404": false
+			},
+			"testPassFailCounts": {
+				"Status code should be 404": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				9
+			],
+			"allTests": [
+				{
+					"Status code should be 404": false
+				}
+			]
+		},
+		{
+			"id": "62f24fe7-69a8-4d28-9bef-8c41aaf22edf",
+			"name": "[VALID] Get all patients in hospital",
+			"url": "http://localhost:8080/v1/hospitais/1/pacientes",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 200": true,
+				"Response should be an array": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should be an array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Status code should be 200": true,
+					"Response should be an array": true
+				}
+			]
+		},
+		{
+			"id": "af73ea10-b781-44a5-b0e0-26701ba3ab70",
+			"name": "[VALID] Get patient details",
+			"url": "http://localhost:8080/v1/hospitais/1/pacientes/1",
+			"time": 15,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 200": true,
+				"Patient should have required fields": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Patient should have required fields": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"Status code should be 200": true,
+					"Patient should have required fields": true
+				}
+			]
+		},
+		{
+			"id": "4e68c214-c9bb-4fce-9b68-0df2a4bf2f96",
+			"name": "[VALID] Check in patient",
+			"url": "http://localhost:8080/v1/hospitais/1/pacientes/checkin",
+			"time": 26,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 200": true,
+				"Patient should be checked in": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Patient should be checked in": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				26
+			],
+			"allTests": [
+				{
+					"Status code should be 200": true,
+					"Patient should be checked in": true
+				}
+			]
+		},
+		{
+			"id": "26886ed1-a3f8-49a8-82f4-6c56260ae7d9",
+			"name": "[VALID] Check out patient",
+			"url": "http://localhost:8080/v1/hospitais/1/pacientes/checkout",
+			"time": 13,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code should be 200": false
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Status code should be 200": false
+				}
+			]
+		},
+		{
+			"id": "33c53c87-9052-41db-a774-c396f4313502",
+			"name": "[VALID] Update patient information",
+			"url": "http://localhost:8080/v1/hospitais/1/pacientes/1",
+			"time": 15,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 200": true,
+				"Patient data should be updated": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Patient data should be updated": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"Status code should be 200": true,
+					"Patient data should be updated": true
+				}
+			]
+		},
+		{
+			"id": "b74d6317-2bad-4225-bf68-0d7462fd7cbd",
+			"name": "[INVALID] Check in patient with missing name",
+			"url": "http://localhost:8080/v1/hospitais/1/pacientes/checkin",
+			"time": 29,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 400": false
+			},
+			"testPassFailCounts": {
+				"Status code should be 400": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				29
+			],
+			"allTests": [
+				{
+					"Status code should be 400": false
+				}
+			]
+		},
+		{
+			"id": "4ef974aa-493e-43e7-8b83-dc50f0f53faf",
+			"name": "[INVALID] Get patients - non-existent hospital",
+			"url": "http://localhost:8080/v1/hospitais/999999/pacientes",
+			"time": 10,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code should be 404": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10
+			],
+			"allTests": [
+				{
+					"Status code should be 404": true
+				}
+			]
+		},
+		{
+			"id": "7d45e8d6-bb15-4d50-8a1f-4650c9caa3fb",
+			"name": "[VALID] Find locations near hospital",
+			"url": "http://localhost:8080/v1/hospitais/1/proximidades",
+			"time": 56,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 200": true,
+				"Response should be an array": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should be an array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				56
+			],
+			"allTests": [
+				{
+					"Status code should be 200": true,
+					"Response should be an array": true
+				}
+			]
+		},
+		{
+			"id": "36836fd9-d0e7-4d2c-8567-0dd3d80c8114",
+			"name": "[VALID] Find nearby hospitals with radius 10",
+			"url": "http://localhost:8080/v1/hospitais/1/hospitaisProximos?raio=10",
+			"time": 104,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code should be 200": true,
+				"Response should be an array": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should be an array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				104
+			],
+			"allTests": [
+				{
+					"Status code should be 200": true,
+					"Response should be an array": true
+				}
+			]
+		},
+		{
+			"id": "8cdf0b23-ea8f-4535-a5c3-567a9ee5a056",
+			"name": "[INVALID] Find nearby hospitals - non-existent hospital",
+			"url": "http://localhost:8080/v1/hospitais/999999/hospitaisProximos?raio=10",
+			"time": 13,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code should be 404": false
+			},
+			"testPassFailCounts": {
+				"Status code should be 404": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Status code should be 404": false
+				}
+			]
+		},
+		{
+			"id": "119ae1e1-4080-4b3a-9f5a-57965b4c7f58",
+			"name": "[INVALID] Find nearby hospitals - missing radius",
+			"url": "http://localhost:8080/v1/hospitais/1/hospitaisProximos",
+			"time": 17,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status code should be 400": true
+			},
+			"testPassFailCounts": {
+				"Status code should be 400": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Status code should be 400": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 2434,
+	"collection": {
+		"requests": [
+			{
+				"id": "22624bca-a0bc-4bab-9fd3-9c96c7b7735e",
+				"method": "POST"
+			},
+			{
+				"id": "23e0168c-674f-4991-b5e4-2d81dea5fbe2",
+				"method": "GET"
+			},
+			{
+				"id": "5a0e5173-c031-493e-9a6c-2bba4cf67548",
+				"method": "GET"
+			},
+			{
+				"id": "6337487a-1f4a-42ad-8706-1dafdb50184e",
+				"method": "PUT"
+			},
+			{
+				"id": "00b4f69e-8696-498a-99e7-5a426b3eedb2",
+				"method": "GET"
+			},
+			{
+				"id": "60b49f65-39ae-4691-be78-d8c739126b9b",
+				"method": "GET"
+			},
+			{
+				"id": "9bf6a0e5-a3b8-4205-9f1b-552ed99d7695",
+				"method": "POST"
+			},
+			{
+				"id": "9f6e45a3-df82-4440-8dc9-309f9b804333",
+				"method": "POST"
+			},
+			{
+				"id": "4085b280-27fd-49ff-b0cb-86e8ab494c8d",
+				"method": "GET"
+			},
+			{
+				"id": "cf8ea75c-a308-4a63-87d1-d3654ec86b30",
+				"method": "POST"
+			},
+			{
+				"id": "6ccc826b-e07a-4137-b5b8-c6af22b185e5",
+				"method": "GET"
+			},
+			{
+				"id": "41e057b1-d465-44f6-9b87-cee801492858",
+				"method": "GET"
+			},
+			{
+				"id": "67418060-cefe-4d5d-b8d7-abdbe33e589d",
+				"method": "PUT"
+			},
+			{
+				"id": "b2ff7afa-0653-4e8c-a993-566a7dcb150d",
+				"method": "POST"
+			},
+			{
+				"id": "8f52ac60-064c-414b-9696-fcd173803ddd",
+				"method": "POST"
+			},
+			{
+				"id": "62f24fe7-69a8-4d28-9bef-8c41aaf22edf",
+				"method": "GET"
+			},
+			{
+				"id": "af73ea10-b781-44a5-b0e0-26701ba3ab70",
+				"method": "GET"
+			},
+			{
+				"id": "4e68c214-c9bb-4fce-9b68-0df2a4bf2f96",
+				"method": "POST"
+			},
+			{
+				"id": "26886ed1-a3f8-49a8-82f4-6c56260ae7d9",
+				"method": "POST"
+			},
+			{
+				"id": "33c53c87-9052-41db-a774-c396f4313502",
+				"method": "PUT"
+			},
+			{
+				"id": "b74d6317-2bad-4225-bf68-0d7462fd7cbd",
+				"method": "POST"
+			},
+			{
+				"id": "4ef974aa-493e-43e7-8b83-dc50f0f53faf",
+				"method": "GET"
+			},
+			{
+				"id": "7d45e8d6-bb15-4d50-8a1f-4650c9caa3fb",
+				"method": "GET"
+			},
+			{
+				"id": "36836fd9-d0e7-4d2c-8567-0dd3d80c8114",
+				"method": "GET"
+			},
+			{
+				"id": "8cdf0b23-ea8f-4535-a5c3-567a9ee5a056",
+				"method": "GET"
+			},
+			{
+				"id": "119ae1e1-4080-4b3a-9f5a-57965b4c7f58",
+				"method": "GET"
+			}
+		]
+	}
+}

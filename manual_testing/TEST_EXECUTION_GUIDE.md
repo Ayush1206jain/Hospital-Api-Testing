@@ -1,510 +1,471 @@
-# Test Execution Guide - Hospital Management API
+# Test Execution Guide - Phase 1: Manual Testing
+
+## Overview
+
+This document guides you through executing the comprehensive test suite for the Hospital Management API. The test suite includes **65 test cases** covering:
+
+- **Hospital Management** (9 endpoints)
+- **Inventory Management** (6 endpoints)
+- **Patient Management** (7 endpoints)
+- **Location & Proximity** (2 endpoints)
+
+**Test Coverage:**
+
+- Valid scenarios: 35 tests
+- Invalid scenarios: 30 tests
+- Total endpoints: 18
+
+---
 
 ## Prerequisites
 
-### 1. System Requirements
+1. **Backend Service Running:** The Hospital Management API must be running on `http://localhost:8080`
+2. **Database:** MongoDB must be running with the `HospitalDB` database
+3. **Postman Installed:** Download from [getpostman.com](https://getpostman.com)
+4. **Sample Data Loaded:** Backend auto-seeds sample data on startup
 
-- Postman (Desktop or Web) - for test execution
-- Hospital Management API running on `http://localhost:8080`
-- MongoDB connection active
-- Network access to the API server
-
-### 2. Setup Requirements ✅
-
-#### Start the API Server
+### Quick Backend Check
 
 ```powershell
-cd "d:\NIT-K 2nd Sem\mini project\oasdocuments\Hospital Managament System\GestaoHospital\"
-
-# Option 1: Using Maven wrapper
-.\mvnw.cmd spring-boot:run
-
-# Option 2: Using built JAR
-.\mvnw.cmd package
-java -jar target\gestaohospitalar-0.0.1.jar
-```
-
-**Expected Output:**
-
-```
-2026-02-07 10:00:00 - Application started successfully
-Server running at: http://localhost:8080
-Swagger UI: http://localhost:8080/swagger-ui.html
-```
-
-#### Verify API is Running
-
-```bash
-# Test connectivity
+# Check if backend is running
 curl http://localhost:8080/v1/hospitais/
-
-# Expected: 200 OK response with hospital list
 ```
+
+If you get hospital data back, the backend is ready.
 
 ---
 
-## Postman Setup
+## Method 1: Using Postman GUI (Recommended for Manual Testing)
 
-### 1. Import Test Cases Collection
+### Step 1: Import the Postman Collection
 
 1. Open **Postman**
-2. Click **Import** (or Ctrl+O)
-3. Select file: `postman_collection.json` from `manual_testing/` folder
-4. Click **Import**
+2. Click **File > Import** (or Ctrl+O)
+3. Choose **Upload Files** tab
+4. Select `postman_collection.json` from `manual_testing/` folder
+5. Click **Import**
 
-### 2. Configure Environment Variables
+### Step 2: Set Environment Variables
 
-1. In Postman, click **Environments** (left sidebar)
-2. Create new environment: `Hospital-API-Testing`
-3. Add variables:
+1. Click **Environments** in left panel
+2. Create a new environment called "Hospital API Local"
+3. Add this variable:
+   - **Key:** `base_url`
+   - **Value:** `http://localhost:8080`
+4. Select the environment from the top-right dropdown
 
-| Variable     | Value                    | Scope  |
-| ------------ | ------------------------ | ------ |
-| `baseURL`    | http://localhost:8080    | Global |
-| `hospitalId` | 1                        | Global |
-| `productId`  | 5cac077fa9c6543dc892fdf1 | Global |
-| `patientId`  | 1                        | Global |
+### Step 3: Run Individual Requests
 
-### 3. Select Active Environment
+1. Expand the collection in the left panel
+2. Select a test (e.g., "Hospital Management" > "[VALID] List all hospitals")
+3. Click **Send**
+4. Check the response and test results in the **Tests** tab
 
-- Click environment dropdown (top-right)
-- Select `Hospital-API-Testing`
+### Step 4: Run the Entire Collection
+
+1. Click on the collection name "Hospital Management System API Tests"
+2. Click **Run** button (or right-click > Run collection)
+3. This opens the Collection Runner
+4. Select desired options:
+   - **Environment:** Hospital API Local
+   - **Iterations:** 1
+   - **Delay:** 500ms (between requests)
+   - **Deselect:** Any tests you want to skip
+5. Click **Run Hospital Management System API Tests**
+
+### Step 5: View Test Results
+
+After the collection run completes:
+
+- **Summary Panel** shows: Total runs, Pass/Fail count
+- **Individual Request Results** show:
+  - Status code
+  - Response time
+  - Assertions passed/failed
+  - Response body
+
+### Example Test Assertions (Built-in)
+
+Each test includes automatic assertions like:
+
+```javascript
+✓ Status code should be 200
+✓ Response should contain hospital data
+✓ Hospital should be updated
+```
 
 ---
 
-## Running Tests
+## Method 2: Command-Line Testing with Newman
 
-### Method 1: Manual Testing in Postman UI
+**Newman** is Postman's command-line runner. Great for CI/CD integration.
 
-#### Step 1: Run a Single Test Case
-
-1. Open collection: **Hospital Management System**
-2. Select a test folder (e.g., **Hospitals - Valid Cases**)
-3. Click on a test request
-4. Click **Send** button
-5. Review Response:
-   - **Status Code** - Should match expected
-   - **Response Body** - Validate returned data
-   - **Time** - Check response time (< 500ms ideal)
-
-#### Step 2: Test Categorization
-
-**Valid Test Cases:**
-
-- Expected Status: `200` or `201`
-- Response contains requested data
-- No error messages
-
-**Invalid Test Cases:**
-
-- Expected Status: `400` or `404`
-- Response contains error message
-- Explains validation failure
-
-#### Step 3: Document Results
-
-For each test, record:
-
-- ✅ PASS - Status and response match expectations
-- ✅ PASS with notes - Minor deviations
-- ❌ FAIL - Unexpected status or response
-- ⚠️ ERROR - Connection or timeout issues
-
-### Method 2: Automated Testing with Newman
-
-#### Installation
+### Installation
 
 ```powershell
-# Install Newman globally
 npm install -g newman
-
-# Verify installation
-newman --version
+npm install -g newman-reporter-html
 ```
 
-#### Run All Tests
+### Run All Tests
 
 ```powershell
-# Change to manual_testing directory
-cd "d:\NIT-K 2nd Sem\mini project\oasdocuments\Hospital Managament System\manual_testing"
+cd manual_testing
 
-# Run collection with HTML report
 newman run postman_collection.json `
-  -e Hospital-API-Testing.postman_environment.json `
-  -r html `
-  --reporter-html-export "test-results.html"
+  --environment postman_environment.json `
+  --reporters cli,html `
+  --reporter-html-export test-results.html
 ```
 
-#### Run Specific Folder
+### Run Specific Test Suite
 
 ```powershell
-# Run only hospital tests
+# Hospital Management tests only
 newman run postman_collection.json `
-  --folder "Hospitals - Valid Cases"
+  --folder "Hospital Management" `
+  --reporters cli
 ```
 
-#### Run with Detailed Output
+### Run with Delays
 
 ```powershell
-# Show all request/response details
+# 1000ms delay between requests
 newman run postman_collection.json `
-  -e Hospital-API-Testing.postman_environment.json `
-  --verbose
+  --delay-request 1000 `
+  --reporters cli
 ```
 
----
+### View HTML Report
 
-## Test Execution Workflow
-
-### Phase 1: Valid Test Cases
-
-1. **Start with Happy Path Tests**
-   - Create hospital with all fields ✓
-   - Get hospital by ID ✓
-   - List all hospitals ✓
-
-2. **Edge Cases**
-   - Minimum bed counts
-   - Maximum bed counts
-   - Special characters in names
-
-3. **Business Logic**
-   - Available beds validation
-   - Coordinate requirements
-
-### Phase 2: Invalid Test Cases
-
-1. **Missing Fields**
-   - Required field: name
-   - Required field: address
-   - Check error response
-
-2. **Invalid Data Types**
-   - String where number expected
-   - Non-numeric coordinates
-   - Invalid email format
-
-3. **Boundary Violations**
-   - Negative values
-   - Available > Total beds
-   - Invalid status codes
-
-### Phase 3: Integration Tests
-
-1. **Multi-step Scenarios**
-   - Create hospital → Get hospital → Update hospital
-   - Create hospital → Add inventory → List inventory
-   - Find nearest hospital after creation
-
----
-
-## Expected Response Codes
-
-### Success Responses
-
-| Code  | Meaning    | Test Examples                    |
-| ----- | ---------- | -------------------------------- |
-| `200` | OK         | GET requests, successful updates |
-| `201` | Created    | POST requests for new resources  |
-| `204` | No Content | Successful DELETE                |
-
-### Error Responses
-
-| Code  | Meaning      | Test Examples                |
-| ----- | ------------ | ---------------------------- |
-| `400` | Bad Request  | Invalid data, missing fields |
-| `404` | Not Found    | Non-existent resource ID     |
-| `500` | Server Error | Unexpected server issues     |
-
----
-
-## Test Case Execution Checklist
-
-### For Each Test Case:
-
-- [ ] **Request Phase**
-  - [ ] Verify method (GET/POST/PUT/DELETE)
-  - [ ] Verify endpoint URL
-  - [ ] Verify request body (if applicable)
-  - [ ] Verify headers (Content-Type, etc.)
-
-- [ ] **Execution Phase**
-  - [ ] Click Send
-  - [ ] Note response time
-  - [ ] Check network status
-
-- [ ] **Validation Phase**
-  - [ ] Verify status code matches expected
-  - [ ] Check response body structure
-  - [ ] Validate error messages (for invalid cases)
-  - [ ] Confirm data persistence (for creates/updates)
-
-- [ ] **Documentation Phase**
-  - [ ] Record result (PASS/FAIL)
-  - [ ] Note any deviations
-  - [ ] Add screenshots if issues found
-  - [ ] Update test results template
-
----
-
-## Detailed Test Scenarios
-
-### Hospital Management Tests
-
-#### HC-001: Create Hospital (Valid)
-
-**Steps:**
-
-1. Open Postman request: `Hospitals > Create Hospital Valid`
-2. Verify request body has all fields
-3. Send request
-4. **Expected:** Status 201, response contains hospital ID
-5. **Verify:** New hospital appears in GET all hospitals
-
-#### HC-006: Create Hospital Missing Name (Invalid)
-
-**Steps:**
-
-1. Open Postman request: `Hospitals > Create Hospital Invalid - Missing Name`
-2. Body has address, beds, but no name
-3. Send request
-4. **Expected:** Status 400, error mentions "name required"
-5. **Validate:** Error message is user-friendly
-
-### Inventory Tests
-
-#### EST-003: Add Product to Hospital (Valid)
-
-**Steps:**
-
-1. Use existing hospital ID (e.g., 1)
-2. Send POST with product details
-3. **Expected:** Status 201, response has product ID
-4. **Verify:** Product appears in inventory list GET
-
-#### EST-007: Add Product to Non-existent Hospital (Invalid)
-
-**Steps:**
-
-1. Use invalid hospital ID (99999)
-2. Send POST with product details
-3. **Expected:** Status 404, error mentions hospital not found
-4. **Verify:** No product created in database
-
-### Patient Tests
-
-#### PAC-001: Create Patient (Valid)
-
-**Steps:**
-
-1. Send POST with firstName, lastName, email
-2. **Expected:** Status 201, response has patient ID
-3. **Verify:** Patient retrievable via GET
-
-#### PAC-007: Create Patient Invalid Email (Invalid)
-
-**Steps:**
-
-1. Send POST with invalid email format
-2. **Expected:** Status 400, error about email format
-3. **Verify:** Patient not created
-
----
-
-## Common Issues & Solutions
-
-### Issue: "Connection refused" error
-
-**Cause:** API server not running
-**Solution:**
+After running with the HTML reporter, open the generated HTML file:
 
 ```powershell
-# Verify server is running
-curl http://localhost:8080/swagger-ui.html
-
-# If not, start it
-.\mvnw.cmd spring-boot:run
-```
-
-### Issue: "404 Not Found" on valid endpoint
-
-**Cause:** Incorrect endpoint path or base URL
-**Solution:**
-
-- Verify URL in environment variable
-- Check spelling of endpoint
-- Refer to Swagger UI: http://localhost:8080/swagger-ui.html
-
-### Issue: "400 Bad Request" unexpectedly
-
-**Cause:** Invalid request format or data type
-**Solution:**
-
-- Check Content-Type header is application/json
-- Validate JSON syntax (use online JSON validator)
-- Verify data types match expected
-
-### Issue: MongoDB connection error
-
-**Cause:** MongoDB service not running
-**Solution:**
-
-```powershell
-# Start MongoDB
-mongod
-
-# Verify connection
-mongo
-> show dbs
+start test-results.html
 ```
 
 ---
 
-## Test Results Documentation
+## Method 3: Manual Testing with REST Client (VS Code)
 
-### How to Document Results
+### Installation
 
-After each test execution, record in `test_results_template.json`:
+Install the **REST Client** extension in VS Code.
 
-```json
+### Using the `.rest` Files
+
+We'll create example requests (optional). For now, use the test cases from `test_cases.json`.
+
+### Example Request Format
+
+Create a file `requests.rest`:
+
+```
+@baseUrl = http://localhost:8080
+
+### TC-010: List all hospitals
+GET {{baseUrl}}/v1/hospitais/
+
+### TC-011: Get single hospital
+GET {{baseUrl}}/v1/hospitais/1
+
+### TC-001: Create hospital
+POST {{baseUrl}}/v1/hospitais/
+Content-Type: application/json
+
 {
-  "testId": "HC-001",
-  "executionDate": "2026-02-07",
-  "status": "PASS",
-  "actualStatusCode": 201,
-  "expectedStatusCode": 201,
-  "responseTime": "245ms",
-  "notes": "Hospital created successfully",
-  "environment": "Local Development"
+  "id": "100",
+  "name": "Hospital Central",
+  "address": "Rua Principal, 123",
+  "beds": 50,
+  "availableBeds": 30
 }
 ```
 
-### Results Summary
-
-After all tests, analyze:
-
-- Total tests executed
-- Pass rate percentage
-- Failed tests analysis
-- Issues found
-- Recommendations
+Then click **Send Request** above each endpoint.
 
 ---
 
-## Test Execution Timeline
+## Test Case Organization
 
-### Quick Test (30 minutes)
+### Test Files in `manual_testing/` folder
+
+1. **test_cases.json** - All 65 test cases with:
+   - Test ID (HC-001, HC-002, etc.)
+   - Endpoint
+   - HTTP Method
+   - Request body
+   - Expected response
+   - Assertions
+
+2. **postman_collection.json** - Postman-ready collection with:
+   - Pre-written requests for key scenarios
+   - Automated assertions
+   - Environment variables
+   - Test organization by resource
+
+3. **TEST_EXECUTION_GUIDE.md** (this file)
+
+---
+
+## Sample Test Case Walkthrough
+
+### Test: HC-010 - List All Hospitals
+
+**Endpoint:** `GET /v1/hospitais/`
+
+**Expected Status:** 200
+
+**Test Assertion:**
+
+```javascript
+pm.test("Response should be an array", function () {
+  var jsonData = pm.response.json();
+  pm.expect(Array.isArray(jsonData)).to.be.true;
+  pm.expect(jsonData.length).to.be.at.least(3);
+});
+```
+
+**Execution in Postman:**
+
+1. Select "Hospital Management" > "[VALID] List all hospitals"
+2. Click **Send**
+3. Response shows array of hospitals
+4. Check **Tests** tab: ✓ All assertions pass
+
+---
+
+## Expected Test Results
+
+### Valid Tests (35 cases)
+
+These tests should **PASS**:
+
+- Creating hospitals with valid data
+- Updating hospitals
+- Listing resources
+- Adding products to inventory
+- Checking in/out patients
+- Finding nearest hospitals
+
+**Expected Result:** ✅ Status 200 or 201
+
+### Invalid Tests (30 cases)
+
+These tests should receive **appropriate error responses**:
+
+- Missing required fields → Status 400
+- Non-existent IDs → Status 404
+- Negative values → Status 400
+- Invalid data types → Status 400
+
+**Expected Result:** ✅ Status 400 or 404
+
+---
+
+## Common Issues & Troubleshooting
+
+### Issue: "Connection refused" error
+
+**Solution:**
+
+- Ensure backend is running: `.\mvnw.cmd spring-boot:run`
+- Check backend logs for startup errors
+- Verify MongoDB is running
+
+### Issue: Tests fail with 404 on valid requests
+
+**Solution:**
+
+- Confirm sample data is loaded (check MongoDB `HospitalDB` database)
+- Use IDs "1", "2", "3" which are pre-populated
+- For inventory tests, first add a product via `POST /v1/hospitais/1/estoque`
+
+### Issue: CORS errors
+
+**Solution:**
+
+- Frontend should run on `http://localhost:4200`
+- API allows CORS from `http://localhost:4200`
+- If testing from other origin, backend allows it in `@CrossOrigin`
+
+### Issue: Invalid JSON in request body
+
+**Solution:**
+
+- Verify JSON syntax in Postman request body
+- Use Postman's JSON formatter (Ctrl+Shift+J)
+- Check test_cases.json for correct request format
+
+---
+
+## Test Execution Checklist
+
+Use this checklist to track test execution:
 
 ```
-1. Valid Hospital Creation: 5 tests → 5 mins
-2. Invalid Hospital Creation: 5 tests → 5 mins
-3. Hospital Retrieval: 4 tests → 5 mins
-4. Inventory Creation: 4 tests → 5 mins
-5. Patient Creation: 3 tests → 5 mins
-Total: 21 tests in 30 mins
-```
+Phase 1 - Manual Testing Checklist
+=====================================
 
-### Comprehensive Test (2-3 hours)
+SETUP
+☐ Backend running on http://localhost:8080
+☐ MongoDB running with HospitalDB
+☐ Postman installed
+☐ Postman collection imported
+☐ Environment variables set (base_url)
 
-```
-1. Hospital Management: All 30 tests → 45 mins
-2. Inventory Management: All 20 tests → 45 mins
-3. Patient Management: All 14 tests → 30 mins
-4. Integration Tests: 8 tests → 15 mins
-5. Documentation: → 15 mins
-Total: 72 tests in ~2.5 hours
+HOSPITAL MANAGEMENT TESTS
+☐ HC-001: Create hospital
+☐ HC-010: List all hospitals
+☐ HC-011: Get single hospital
+☐ HC-013: Update hospital
+☐ HC-020: Get available beds
+☐ HC-022: Find nearest hospital
+☐ HC-004-009: Invalid tests (missing fields, negative values)
+
+INVENTORY MANAGEMENT TESTS
+☐ HC-027: Add product
+☐ HC-032: List inventory
+☐ HC-034: Get product details
+☐ HC-036: Update product
+☐ HC-029-031: Invalid tests
+
+PATIENT MANAGEMENT TESTS
+☐ HC-041: List patients
+☐ HC-043: Get patient details
+☐ HC-045: Check in patient
+☐ HC-049: Check out patient
+☐ HC-052: Update patient
+☐ HC-047-048: Invalid tests
+
+LOCATION & PROXIMITY TESTS
+☐ HC-055: Find near locations
+☐ HC-057: Find nearby hospitals
+☐ HC-059-061: Invalid tests
+
+SUMMARY
+☐ Total tests run: ___
+☐ Total passed: ___
+☐ Total failed: ___
+☐ All valid tests passed: YES / NO
+☐ All invalid tests received correct error codes: YES / NO
 ```
 
 ---
 
-## Post-Test Activities
+## Advanced Testing Features
 
-### 1. Generate Test Report
+### Custom Environment Variables
 
-```powershell
-# Using Newman HTML reporter
-newman run postman_collection.json `
-  -r html `
-  --reporter-html-export "test-report-$(Get-Date -Format 'yyyy-MM-dd-HHmm').html"
+Add these to your Postman environment:
+
+```json
+{
+  "base_url": "http://localhost:8080",
+  "hospital_id": "1",
+  "patient_id": "1",
+  "timeout": 5000
+}
 ```
 
-### 2. Analyze Results
+Then use in requests:
 
-- [ ] Identify failed tests
-- [ ] Document error patterns
-- [ ] Categorize issues (data validation, logic, etc.)
-- [ ] Prioritize fixes
+```
+GET {{base_url}}/v1/hospitais/{{hospital_id}}
+```
 
-### 3. Create Bug Reports
+### Pre-request Scripts
 
-For each failure:
+Example: Generate a timestamp for a request:
 
-- Test ID
-- Expected vs Actual behavior
-- Steps to reproduce
-- Error logs/screenshots
-- Severity level
+```javascript
+const timestamp = new Date().toISOString();
+pm.variables.set("timestamp", timestamp);
+```
 
-### 4. Iterate & Retest
+### Global Variables
 
-- Fix identified issues
-- Re-run affected tests
-- Verify fixes with full test suite
+Store data from one request for use in another:
+
+```javascript
+pm.test("Save hospital ID", function () {
+  var jsonData = pm.response.json();
+  pm.globals.set("created_hospital_id", jsonData.id);
+});
+```
+
+Then use: `{{created_hospital_id}}`
 
 ---
 
-## Best Practices
+## Reporting & Documentation
 
-✅ **Do:**
+### Test Execution Report Template
 
-- Test after API changes
-- Run full suite before deployment
-- Document all findings
-- Use consistent naming
-- Keep test data clean
-- Version control test cases
+After running tests, document results:
 
-❌ **Don't:**
+```
+TEST EXECUTION REPORT
+Date: [Date]
+Tester: [Name]
+Build: [Version]
 
-- Modify production data
-- Run tests concurrently (database conflicts)
-- Skip invalid case tests
-- Leave test data in database
-- Ignore error messages
-- Test without API running
+SUMMARY
+Total Test Cases: 65
+Total Passed: [#]
+Total Failed: [#]
+Pass Rate: [%]
+
+RESULTS BY CATEGORY
+- Hospital Management: [Pass/Fail]
+- Inventory Management: [Pass/Fail]
+- Patient Management: [Pass/Fail]
+- Location & Proximity: [Pass/Fail]
+
+FAILURES
+[List any failed tests and root cause]
+
+NOTES
+[Any observations or issues]
+```
+
+### Export Test Results
+
+1. Run collection with HTML reporter: `newman run postman_collection.json --reporter-html-export report.html`
+2. Share the HTML report with team
+3. Save results for regression testing
 
 ---
 
 ## Next Steps
 
-1. **Complete Manual Testing**
-   - Execute all 98 test cases
-   - Document results
-   - Identify issues
-
-2. **Generate Test Report**
-   - Summary of results
-   - Pass/fail breakdown
-   - Issues and recommendations
-
-3. **Phase 2 Preparation**
-   - Extract API OpenAPI specification
-   - Prepare for AI model development
-   - Plan test case auto-generation
+1. **Execute all 65 test cases** and document results
+2. **Verify:** All valid tests return 200, invalid tests return 400/404
+3. **Document:** Sample pass/fail scenarios and error messages
+4. **Archive:** Keep test results for baseline comparison
 
 ---
 
-## Contact & Support
+## Resources
 
-**Issues or Questions?**
+- **Postman Documentation:** https://learning.postman.com/docs/
+- **Newman CLI:** https://www.npmjs.com/package/newman
+- **REST API Best Practices:** https://restfulapi.net/
+- **HTTP Status Codes:** https://httpwg.org/specs/rfc7231.html#status.codes
 
-- Check Swagger UI: http://localhost:8080/swagger-ui.html
-- Review request logs in Postman console
-- Verify MongoDB is running
-- Check API server logs
+---
 
-**Resources:**
+## Support
 
-- Postman Documentation: https://learning.postman.com
-- API Project README: [GestaoHospital/README.md](../../GestaoHospital/README.md)
-- Implementation Plan: [IMPLEMENTATION_PLAN.md](../IMPLEMENTATION_PLAN.md)
+For questions or issues:
+
+1. Check the troubleshooting section above
+2. Review test_cases.json for expected behavior
+3. Check backend logs: `.\mvnw.cmd spring-boot:run`
+4. Verify MongoDB is running and has sample data
+
+---
+
+**Last Updated:** February 2026
+**Test Suite Version:** 1.0
+**Status:** Ready for execution

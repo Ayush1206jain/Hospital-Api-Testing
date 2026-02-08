@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "hospital-api-test-suite",
+    "_postman_id": "a76f6ec8-6f7d-4951-ac78-aed9a5be7162",
     "name": "Hospital Management System API Tests",
     "description": "Comprehensive test suite for Hospital Management API - Phase 1 Manual Testing",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -15,6 +15,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "37f322f2-07e1-41de-9aa5-0e63c45c1e44",
                 "exec": [
                   "pm.test('Status code should be 200', function() {",
                   "  pm.response.to.have.status(200);",
@@ -27,10 +28,25 @@
                   "  pm.expect(jsonData.name).to.equal('Hospital Central');",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "0c76d2c0-aea4-4725-910f-3dd4b79bf4de",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
+          "id": "22624bca-a0bc-4bab-9fd3-9c96c7b7735e",
           "request": {
             "method": "POST",
             "header": [
@@ -41,14 +57,26 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"id\":\"100\",\"name\":\"Hospital Central\",\"address\":\"Rua Principal, 123\",\"beds\":50,\"availableBeds\":30,\"location\":{\"referenceId\":\"Rua Principal, 123\",\"locationCategory\":\"HOSPITAL\",\"name\":\"Hospital Central\",\"latitude\":-23.593438,\"longitude\":-46.710462}}"
+              "raw": "{//\"id\":\"100\",\r\n\"name\":\"Hospital Central\",\r\n\"address\":\"Indore\",\r\n\"beds\":500,\r\n\"availableBeds\":350,\r\n\"location\":\"Indore\",\r\n\"locationCategory\":\"HOSPITAL\",\r\n\"name\":\"Hospital Central\",\r\n\"latitude\":22.7203616,\r\n\"longitude\":75.8681996}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
               "raw": "{{base_url}}/v1/hospitais/",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", ""]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                ""
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[VALID] List all hospitals",
@@ -71,10 +99,12 @@
                   "  pm.expect(jsonData.length).to.be.at.least(3);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "80f126f4-db8f-494b-bd22-963feef37302"
               }
             }
           ],
+          "id": "23e0168c-674f-4991-b5e4-2d81dea5fbe2",
           "request": {
             "method": "GET",
             "header": [
@@ -85,10 +115,17 @@
             ],
             "url": {
               "raw": "{{base_url}}/v1/hospitais/",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", ""]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                ""
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[VALID] Get single hospital",
@@ -96,6 +133,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "6e3010f5-3746-4956-bfe7-3d0eb132694c",
                 "exec": [
                   "pm.test('Status code should be 200', function() {",
                   "  pm.response.to.have.status(200);",
@@ -108,10 +146,25 @@
                   "  pm.expect(jsonData).to.have.property('address');",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "c9c75a3c-f095-4f2b-aedb-f1751ee804cb",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
+          "id": "5a0e5173-c031-493e-9a6c-2bba4cf67548",
           "request": {
             "method": "GET",
             "header": [
@@ -121,11 +174,18 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/hospitais/1",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1"]
+              "raw": "{{base_url}}/v1/hospitais/698863b32270bb483c551fe2",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "698863b32270bb483c551fe2"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[VALID] Update hospital",
@@ -133,6 +193,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "1df64eb3-2bce-4e31-8347-4951752d9d5e",
                 "exec": [
                   "pm.test('Status code should be 200', function() {",
                   "  pm.response.to.have.status(200);",
@@ -143,10 +204,25 @@
                   "  pm.expect(jsonData.name).to.equal('Hospital Central Updated');",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "17a3f740-1409-47ed-aa98-01232e223da9",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
+          "id": "6337487a-1f4a-42ad-8706-1dafdb50184e",
           "request": {
             "method": "PUT",
             "header": [
@@ -157,14 +233,21 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"name\":\"Hospital Central Updated\",\"address\":\"Rua Principal Atualizada, 123\",\"beds\":60,\"availableBeds\":40}"
+              "raw": "{\r\n    \"name\": \"Jaipur city Hospital\",\r\n    \"address\": \"Jaipur,Raj\",\r\n    \"beds\": 60,\r\n    \"availableBeds\": 40\r\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/hospitais/1",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1"]
+              "raw": "{{base_url}}/v1/hospitais/698863b32270bb483c551fe2",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "698863b32270bb483c551fe2"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[VALID] Get available beds",
@@ -172,6 +255,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "49566852-a63d-419b-8c5f-811aaae1819a",
                 "exec": [
                   "pm.test('Status code should be 200', function() {",
                   "  pm.response.to.have.status(200);",
@@ -183,10 +267,25 @@
                   "  pm.expect(jsonData.leitos).to.be.at.least(0);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "e622afaf-cd2a-4ebd-a883-9652ab77f19f",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
+          "id": "00b4f69e-8696-498a-99e7-5a426b3eedb2",
           "request": {
             "method": "GET",
             "header": [
@@ -196,11 +295,19 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/hospitais/1/leitos",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1", "leitos"]
+              "raw": "{{base_url}}/v1/hospitais/6988636a2270bb483c551fe0/leitos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "6988636a2270bb483c551fe0",
+                "leitos"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[VALID] Find nearest hospital",
@@ -208,6 +315,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "a41bad39-b2e6-4d3f-a777-5f5086082920",
                 "exec": [
                   "pm.test('Status code should be 200', function() {",
                   "  pm.response.to.have.status(200);",
@@ -219,10 +327,25 @@
                   "  pm.expect(jsonData).to.have.property('name');",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "9f57b640-6d0d-4bf6-a6b9-8c695ce8da57",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
+          "id": "60b49f65-39ae-4691-be78-d8c739126b9b",
           "request": {
             "method": "GET",
             "header": [
@@ -232,25 +355,35 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/hospitais/maisProximo?lat=-23.593438&lon=-46.710462&raioMaximo=10",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "maisProximo"],
+              "raw": "{{base_url}}/v1/hospitais/maisProximo?lat=22.7203616&lon=75.8681996&raioMaximo=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "maisProximo"
+              ],
               "query": [
                 {
                   "key": "lat",
-                  "value": "-23.593438"
+                  "value": "22.7203616",
+                  "uuid": "07327d8f-d63c-43c2-9085-e4604db36cc9"
                 },
                 {
                   "key": "lon",
-                  "value": "-46.710462"
+                  "value": "75.8681996",
+                  "uuid": "835d1701-3e63-4d74-b1e6-ca96c0d98db0"
                 },
                 {
                   "key": "raioMaximo",
-                  "value": "10"
+                  "value": "10",
+                  "uuid": "b94409e3-cc76-43cb-a071-d8881d678f49"
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[INVALID] Create hospital - missing name",
@@ -258,15 +391,31 @@
             {
               "listen": "test",
               "script": {
+                "id": "4f141a3e-403b-437e-81f5-717fa643b6e7",
                 "exec": [
                   "pm.test('Status code should be 400', function() {",
                   "  pm.response.to.have.status(400);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "f1baec18-ee65-4685-ae61-bb4cc9e4993f",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
+          "id": "9bf6a0e5-a3b8-4205-9f1b-552ed99d7695",
           "request": {
             "method": "POST",
             "header": [
@@ -277,14 +426,21 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"id\":\"103\",\"address\":\"Rua Teste, 789\",\"beds\":50,\"availableBeds\":30}"
+              "raw": "{\r\n    //\"id\": \"103\",\r\n    \"address\": \"Kota,Raj\",\r\n    \"beds\": 50,\r\n    \"availableBeds\": 30\r\n}"
             },
             "url": {
               "raw": "{{base_url}}/v1/hospitais/",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", ""]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                ""
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[INVALID] Create hospital - negative beds",
@@ -292,15 +448,31 @@
             {
               "listen": "test",
               "script": {
+                "id": "cfe291ce-0adb-422c-b0e7-56b556b055d1",
                 "exec": [
                   "pm.test('Status code should be 400', function() {",
                   "  pm.response.to.have.status(400);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "de47d3d4-a89b-4b09-9b33-b06cba32f636",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
+          "id": "9f6e45a3-df82-4440-8dc9-309f9b804333",
           "request": {
             "method": "POST",
             "header": [
@@ -311,14 +483,21 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"id\":\"105\",\"name\":\"Hospital Teste\",\"address\":\"Rua Teste, 789\",\"beds\":-10,\"availableBeds\":5}"
+              "raw": "{\r\n  //  \"id\": \"105\",\r\n    \"name\": \"Hospital Test\",\r\n    \"address\": \"manglore, 789\",\r\n    \"beds\": -10,\r\n    \"availableBeds\": 5\r\n}"
             },
             "url": {
               "raw": "{{base_url}}/v1/hospitais/",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", ""]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                ""
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[INVALID] Get hospital - non-existent ID",
@@ -331,10 +510,12 @@
                   "  pm.response.to.have.status(404);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "e7f7e32f-f1b6-4cfc-beaa-0a2caad332b0"
               }
             }
           ],
+          "id": "4085b280-27fd-49ff-b0cb-86e8ab494c8d",
           "request": {
             "method": "GET",
             "header": [
@@ -345,12 +526,20 @@
             ],
             "url": {
               "raw": "{{base_url}}/v1/hospitais/999999",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "999999"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "999999"
+              ]
             }
-          }
+          },
+          "response": []
         }
-      ]
+      ],
+      "id": "107f683f-5cd2-42f1-81f0-cb184f2fa71d"
     },
     {
       "name": "Inventory Management",
@@ -361,6 +550,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "579e70f6-6fb1-414c-ba67-a395641353be",
                 "exec": [
                   "pm.test('Status code should be 200', function() {",
                   "  pm.response.to.have.status(200);",
@@ -372,10 +562,25 @@
                   "  pm.expect(jsonData.name).to.equal('Dipirona 500mg');",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "befac088-425f-41f5-8577-03c035d980c2",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
+          "id": "cf8ea75c-a308-4a63-87d1-d3654ec86b30",
           "request": {
             "method": "POST",
             "header": [
@@ -386,14 +591,22 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"category\":\"Medicamento\",\"name\":\"Dipirona 500mg\",\"quantity\":100,\"productType\":\"COMMON\"}"
+              "raw": "{\r\n    \"category\": \"Medicine\",\r\n    \"name\": \"Dolo 500mg\",\r\n    \"quantity\": 100,\r\n    \"productType\": \"COMMON\"\r\n}"
             },
             "url": {
               "raw": "{{base_url}}/v1/hospitais/1/estoque",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1", "estoque"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "1",
+                "estoque"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[VALID] List inventory items",
@@ -411,10 +624,12 @@
                   "  pm.expect(Array.isArray(jsonData)).to.be.true;",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "b980e3d9-a35a-4c6c-ab1e-2b15ec652c66"
               }
             }
           ],
+          "id": "6ccc826b-e07a-4137-b5b8-c6af22b185e5",
           "request": {
             "method": "GET",
             "header": [
@@ -425,10 +640,18 @@
             ],
             "url": {
               "raw": "{{base_url}}/v1/hospitais/1/estoque",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1", "estoque"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "1",
+                "estoque"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[VALID] Get product details",
@@ -436,6 +659,7 @@
             {
               "listen": "test",
               "script": {
+                "id": "c0d50fd1-5da3-43d8-906d-1a7b2c7bbfe3",
                 "exec": [
                   "pm.test('Status code should be 200', function() {",
                   "  pm.response.to.have.status(200);",
@@ -447,10 +671,25 @@
                   "  pm.expect(jsonData).to.have.property('name');",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "c98480be-c290-4019-a7dd-e75759319308",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
+          "id": "41e057b1-d465-44f6-9b87-cee801492858",
           "request": {
             "method": "GET",
             "header": [
@@ -460,17 +699,20 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/hospitais/1/estoque/507f1f77bcf86cd799439011",
-              "host": ["{{base_url}}"],
+              "raw": "{{base_url}}/v1/hospitais/1/estoque/698866f22270bb483c551fe3",
+              "host": [
+                "{{base_url}}"
+              ],
               "path": [
                 "v1",
                 "hospitais",
                 "1",
                 "estoque",
-                "507f1f77bcf86cd799439011"
+                "698866f22270bb483c551fe3"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[VALID] Update product quantity",
@@ -488,10 +730,12 @@
                   "  pm.expect(jsonData.quantity).to.equal(150);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "55345ead-9c9d-4d2c-8ec3-ae098aa0364d"
               }
             }
           ],
+          "id": "67418060-cefe-4d5d-b8d7-abdbe33e589d",
           "request": {
             "method": "PUT",
             "header": [
@@ -506,7 +750,9 @@
             },
             "url": {
               "raw": "{{base_url}}/v1/hospitais/1/estoque/507f1f77bcf86cd799439011",
-              "host": ["{{base_url}}"],
+              "host": [
+                "{{base_url}}"
+              ],
               "path": [
                 "v1",
                 "hospitais",
@@ -515,7 +761,8 @@
                 "507f1f77bcf86cd799439011"
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[INVALID] Add product - negative quantity",
@@ -528,10 +775,12 @@
                   "  pm.response.to.have.status(400);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "d61551e3-1644-450e-9c5d-963dc70f3947"
               }
             }
           ],
+          "id": "b2ff7afa-0653-4e8c-a993-566a7dcb150d",
           "request": {
             "method": "POST",
             "header": [
@@ -546,10 +795,18 @@
             },
             "url": {
               "raw": "{{base_url}}/v1/hospitais/1/estoque",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1", "estoque"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "1",
+                "estoque"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[INVALID] Add product to non-existent hospital",
@@ -562,10 +819,12 @@
                   "  pm.response.to.have.status(404);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "6c662b1c-8cf1-426b-9ed7-15b5dc669519"
               }
             }
           ],
+          "id": "8f52ac60-064c-414b-9696-fcd173803ddd",
           "request": {
             "method": "POST",
             "header": [
@@ -580,12 +839,21 @@
             },
             "url": {
               "raw": "{{base_url}}/v1/hospitais/999999/estoque",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "999999", "estoque"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "999999",
+                "estoque"
+              ]
             }
-          }
+          },
+          "response": []
         }
-      ]
+      ],
+      "id": "d6e8c918-68af-445b-bc69-8d9a92241047"
     },
     {
       "name": "Patient Management",
@@ -606,10 +874,12 @@
                   "  pm.expect(Array.isArray(jsonData)).to.be.true;",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "42438e2a-8030-492c-961b-90259cd6e2a7"
               }
             }
           ],
+          "id": "62f24fe7-69a8-4d28-9bef-8c41aaf22edf",
           "request": {
             "method": "GET",
             "header": [
@@ -620,10 +890,18 @@
             ],
             "url": {
               "raw": "{{base_url}}/v1/hospitais/1/pacientes",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1", "pacientes"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "1",
+                "pacientes"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[VALID] Get patient details",
@@ -643,10 +921,12 @@
                   "  pm.expect(jsonData).to.have.property('cpf');",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "857d28c4-cb05-4ee0-9f0a-41749b03fee1"
               }
             }
           ],
+          "id": "af73ea10-b781-44a5-b0e0-26701ba3ab70",
           "request": {
             "method": "GET",
             "header": [
@@ -657,10 +937,19 @@
             ],
             "url": {
               "raw": "{{base_url}}/v1/hospitais/1/pacientes/1",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1", "pacientes", "1"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "1",
+                "pacientes",
+                "1"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[VALID] Check in patient",
@@ -678,10 +967,12 @@
                   "  pm.expect(jsonData).to.have.property('id');",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "f05e223a-bdec-4639-86c7-ab806e5aed1d"
               }
             }
           ],
+          "id": "4e68c214-c9bb-4fce-9b68-0df2a4bf2f96",
           "request": {
             "method": "POST",
             "header": [
@@ -696,10 +987,19 @@
             },
             "url": {
               "raw": "{{base_url}}/v1/hospitais/1/pacientes/checkin",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1", "pacientes", "checkin"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "1",
+                "pacientes",
+                "checkin"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[VALID] Check out patient",
@@ -712,10 +1012,12 @@
                   "  pm.response.to.have.status(200);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "5f48240a-1e6b-4f76-8503-44d5702ca67f"
               }
             }
           ],
+          "id": "26886ed1-a3f8-49a8-82f4-6c56260ae7d9",
           "request": {
             "method": "POST",
             "header": [
@@ -730,10 +1032,19 @@
             },
             "url": {
               "raw": "{{base_url}}/v1/hospitais/1/pacientes/checkout",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1", "pacientes", "checkout"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "1",
+                "pacientes",
+                "checkout"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[VALID] Update patient information",
@@ -751,10 +1062,12 @@
                   "  pm.expect(jsonData.name).to.equal('Maria Silva Atualizada');",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "c2b8495d-de90-4dfc-b66a-d1140cb9674e"
               }
             }
           ],
+          "id": "33c53c87-9052-41db-a774-c396f4313502",
           "request": {
             "method": "PUT",
             "header": [
@@ -769,10 +1082,19 @@
             },
             "url": {
               "raw": "{{base_url}}/v1/hospitais/1/pacientes/1",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1", "pacientes", "1"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "1",
+                "pacientes",
+                "1"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[INVALID] Check in patient with missing name",
@@ -785,10 +1107,12 @@
                   "  pm.response.to.have.status(400);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "5515ecd4-7f7a-488f-98a5-b2ad1a67120f"
               }
             }
           ],
+          "id": "b74d6317-2bad-4225-bf68-0d7462fd7cbd",
           "request": {
             "method": "POST",
             "header": [
@@ -803,10 +1127,19 @@
             },
             "url": {
               "raw": "{{base_url}}/v1/hospitais/1/pacientes/checkin",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1", "pacientes", "checkin"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "1",
+                "pacientes",
+                "checkin"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[INVALID] Get patients - non-existent hospital",
@@ -819,10 +1152,12 @@
                   "  pm.response.to.have.status(404);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "1fc8853d-285c-4b65-a684-446473d55fd1"
               }
             }
           ],
+          "id": "4ef974aa-493e-43e7-8b83-dc50f0f53faf",
           "request": {
             "method": "GET",
             "header": [
@@ -833,12 +1168,21 @@
             ],
             "url": {
               "raw": "{{base_url}}/v1/hospitais/999999/pacientes",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "999999", "pacientes"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "999999",
+                "pacientes"
+              ]
             }
-          }
+          },
+          "response": []
         }
-      ]
+      ],
+      "id": "90387981-50c9-446f-8973-a2fd850b87bd"
     },
     {
       "name": "Location & Proximity",
@@ -859,10 +1203,12 @@
                   "  pm.expect(Array.isArray(jsonData)).to.be.true;",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "489f7553-7039-4f43-a7cd-6df19fa9eb6e"
               }
             }
           ],
+          "id": "7d45e8d6-bb15-4d50-8a1f-4650c9caa3fb",
           "request": {
             "method": "GET",
             "header": [
@@ -873,10 +1219,18 @@
             ],
             "url": {
               "raw": "{{base_url}}/v1/hospitais/1/proximidades",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1", "proximidades"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "1",
+                "proximidades"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[VALID] Find nearby hospitals with radius 10",
@@ -894,10 +1248,12 @@
                   "  pm.expect(Array.isArray(jsonData)).to.be.true;",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "bef2bbfc-1232-4d16-ae05-a368e2202a7c"
               }
             }
           ],
+          "id": "36836fd9-d0e7-4d2c-8567-0dd3d80c8114",
           "request": {
             "method": "GET",
             "header": [
@@ -908,8 +1264,15 @@
             ],
             "url": {
               "raw": "{{base_url}}/v1/hospitais/1/hospitaisProximos?raio=10",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1", "hospitaisProximos"],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "1",
+                "hospitaisProximos"
+              ],
               "query": [
                 {
                   "key": "raio",
@@ -917,7 +1280,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[INVALID] Find nearby hospitals - non-existent hospital",
@@ -930,10 +1294,12 @@
                   "  pm.response.to.have.status(404);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "fa9b1fde-a541-4396-98d6-96896953009d"
               }
             }
           ],
+          "id": "8cdf0b23-ea8f-4535-a5c3-567a9ee5a056",
           "request": {
             "method": "GET",
             "header": [
@@ -944,8 +1310,15 @@
             ],
             "url": {
               "raw": "{{base_url}}/v1/hospitais/999999/hospitaisProximos?raio=10",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "999999", "hospitaisProximos"],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "999999",
+                "hospitaisProximos"
+              ],
               "query": [
                 {
                   "key": "raio",
@@ -953,7 +1326,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "[INVALID] Find nearby hospitals - missing radius",
@@ -966,10 +1340,12 @@
                   "  pm.response.to.have.status(400);",
                   "});"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "id": "a1f3e932-bb86-49c6-8fdf-5ce23c78e284"
               }
             }
           ],
+          "id": "119ae1e1-4080-4b3a-9f5a-57965b4c7f58",
           "request": {
             "method": "GET",
             "header": [
@@ -980,16 +1356,26 @@
             ],
             "url": {
               "raw": "{{base_url}}/v1/hospitais/1/hospitaisProximos",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "hospitais", "1", "hospitaisProximos"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "hospitais",
+                "1",
+                "hospitaisProximos"
+              ]
             }
-          }
+          },
+          "response": []
         }
-      ]
+      ],
+      "id": "d240eba7-c814-4902-ba25-801ae1490b90"
     }
   ],
   "variable": [
     {
+      "id": "fbc144a2-f9f0-4cb3-b77b-d0b1d0cd7146",
       "key": "base_url",
       "value": "http://localhost:8080",
       "type": "string"

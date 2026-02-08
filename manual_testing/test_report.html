@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hospital Management API - Test Report</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+      }
+
+      header p {
+        font-size: 0.9em;
+        opacity: 0.9;
+      }
+
+      .summary-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 30px;
+        background: #f8f9fa;
+        border-bottom: 2px solid #e9ecef;
+      }
+
+      .summary-card {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #667eea;
+      }
+
+      .summary-card.pass {
+        border-left-color: #28a745;
+      }
+
+      .summary-card.fail {
+        border-left-color: #dc3545;
+      }
+
+      .summary-card.total {
+        border-left-color: #007bff;
+      }
+
+      .summary-card h3 {
+        font-size: 0.85em;
+        color: #666;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .summary-card .value {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #667eea;
+      }
+
+      .summary-card.pass .value {
+        color: #28a745;
+      }
+
+      .summary-card.fail .value {
+        color: #dc3545;
+      }
+
+      .summary-card.percentage .value {
+        font-size: 2em;
+      }
+
+      .filters {
+        padding: 20px 30px;
+        background: white;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .filter-btn {
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9em;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: #667eea;
+        color: white;
+        border-color: #667eea;
+      }
+
+      .content {
+        padding: 30px;
+      }
+
+      .tests-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+      }
+
+      .tests-table thead {
+        background: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+      }
+
+      .tests-table th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        color: #495057;
+        font-size: 0.9em;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .tests-table td {
+        padding: 15px;
+        border-bottom: 1px solid #dee2e6;
+        font-size: 0.95em;
+      }
+
+      .tests-table tbody tr:hover {
+        background: #f8f9fa;
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85em;
+      }
+
+      .status-pass {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .status-fail {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      .http-code {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 0.9em;
+      }
+
+      .http-200,
+      .http-201 {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .http-404,
+      .http-400 {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      .time {
+        text-align: right;
+        color: #6c757d;
+        font-family: monospace;
+      }
+
+      .test-name {
+        font-weight: 500;
+        color: #333;
+      }
+
+      .test-category {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 4px;
+        background: #e7f3ff;
+        color: #0066cc;
+        font-size: 0.8em;
+        margin-right: 10px;
+      }
+
+      .category-hospital {
+        background: #fce4ec;
+        color: #c2185b;
+      }
+
+      .category-inventory {
+        background: #f3e5f5;
+        color: #7b1fa2;
+      }
+
+      .category-patient {
+        background: #e3f2fd;
+        color: #1565c0;
+      }
+
+      .category-location {
+        background: #e0f2f1;
+        color: #00695c;
+      }
+
+      .charts-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 30px;
+        margin: 30px 0;
+      }
+
+      .chart-container {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+      }
+
+      .chart-container h3 {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 1.1em;
+      }
+
+      .pie-chart {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+      }
+
+      .pie-circle {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: conic-gradient(#28a745 0deg 288deg, #dc3545 288deg 360deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        font-size: 1.5em;
+      }
+
+      .pie-legend {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .pie-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .pie-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 3px;
+      }
+
+      .bar-chart {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .bar-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .bar-label {
+        width: 150px;
+        font-weight: 500;
+      }
+
+      .bar {
+        flex: 1;
+        height: 30px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 10px;
+        color: white;
+        font-weight: bold;
+        font-size: 0.9em;
+      }
+
+      .details-section {
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 2px solid #e9ecef;
+      }
+
+      .details-section h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .failure-list {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 20px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+
+      .failure-item {
+        margin: 10px 0;
+        padding: 10px 0;
+        border-bottom: 1px solid #ffeaa7;
+      }
+
+      .failure-item:last-child {
+        border-bottom: none;
+      }
+
+      .failure-item .test-name {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+      }
+
+      .failure-item .assertion {
+        color: #721c24;
+        font-size: 0.9em;
+        margin-left: 20px;
+      }
+
+      .success-message {
+        background: #d4edda;
+        border-left: 4px solid #28a745;
+        padding: 20px;
+        border-radius: 4px;
+        color: #155724;
+      }
+
+      footer {
+        background: #f8f9fa;
+        padding: 20px 30px;
+        border-top: 1px solid #e9ecef;
+        text-align: center;
+        color: #6c757d;
+        font-size: 0.9em;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      @media print {
+        body {
+          background: white;
+        }
+
+        .container {
+          box-shadow: none;
+          border-radius: 0;
+        }
+
+        .filters {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🏥 Hospital Management API</h1>
+        <p>Test Execution Report </p>
+      </header>
+
+      <div class="summary-section">
+        <div class="summary-card total">
+          <h3>Total Tests</h3>
+          <div class="value">26</div>
+        </div>
+        <div class="summary-card pass">
+          <h3>Passed</h3>
+          <div class="value">15</div>
+        </div>
+        <div class="summary-card fail">
+          <h3>Failed</h3>
+          <div class="value">11</div>
+        </div>
+        <div class="summary-card percentage">
+          <h3>Pass Rate</h3>
+          <div class="value">57.7%</div>
+        </div>
+      </div>
+
+      <div class="filters">
+        <strong>Filter by Category:</strong>
+        <button class="filter-btn active" onclick="filterTests('all')">
+          All Tests (26)
+        </button>
+        <button class="filter-btn" onclick="filterTests('hospital')">
+          Hospital (9)
+        </button>
+        <button class="filter-btn" onclick="filterTests('inventory')">
+          Inventory (6)
+        </button>
+        <button class="filter-btn" onclick="filterTests('patient')">
+          Patient (7)
+        </button>
+        <button class="filter-btn" onclick="filterTests('location')">
+          Location (4)
+        </button>
+      </div>
+
+      <div class="content">
+        <h2 style="margin-bottom: 20px">Test Results</h2>
+
+        <table class="tests-table">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Test Name</th>
+              <th>Category</th>
+              <th>HTTP Code</th>
+              <th>Time (ms)</th>
+              <th>Assertions</th>
+            </tr>
+          </thead>
+          <tbody id="test-results">
+            <!-- Generated by JavaScript -->
+          </tbody>
+        </table>
+
+        <div class="charts-section">
+          <div class="chart-container">
+            <h3>Pass/Fail Distribution</h3>
+            <div class="pie-chart">
+              <div class="pie-circle">57.7%</div>
+              <div class="pie-legend">
+                <div class="pie-item">
+                  <div class="pie-color" style="background: #28a745"></div>
+                  <span>Passed: 15 tests</span>
+                </div>
+                <div class="pie-item">
+                  <div class="pie-color" style="background: #dc3545"></div>
+                  <span>Failed: 11 tests</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="chart-container">
+            <h3>Tests by Category</h3>
+            <div class="bar-chart">
+              <div class="bar-item">
+                <div class="bar-label">Hospital</div>
+                <div class="bar" style="width: 80%"><span>9</span></div>
+              </div>
+              <div class="bar-item">
+                <div class="bar-label">Inventory</div>
+                <div class="bar" style="width: 65%"><span>6</span></div>
+              </div>
+              <div class="bar-item">
+                <div class="bar-label">Patient</div>
+                <div class="bar" style="width: 65%"><span>7</span></div>
+              </div>
+              <div class="bar-item">
+                <div class="bar-label">Location</div>
+                <div class="bar" style="width: 50%"><span>4</span></div>
+              </div>
+            </div>
+          </div> -->
+        </div>
+
+        <div class="details-section" id="failures-section">
+          <h2>Failed Tests Analysis</h2>
+          <div class="failure-list" id="failure-list">
+            <!-- Generated by JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p><strong>Test Suite:</strong> Hospital Management System API v1.0</p>
+      
+      </footer>
+    </div>
+
+    <script>
+      const testResults = [
+        {
+          id: 1,
+          name: "[VALID] Create hospital with all fields",
+          category: "hospital",
+          status: "pass",
+          code: 200,
+          time: 1931,
+          assertions: "2/2 passed",
+        },
+        {
+          id: 2,
+          name: "[VALID] List all hospitals",
+          category: "hospital",
+          status: "pass",
+          code: 200,
+          time: 20,
+          assertions: "3/3 passed",
+        },
+        {
+          id: 3,
+          name: "[VALID] Get single hospital",
+          category: "hospital",
+          status: "pass",
+          code: 200,
+          time: 13,
+          assertions: "2/2 passed",
+        },
+        {
+          id: 4,
+          name: "[VALID] Update hospital",
+          category: "hospital",
+          status: "fail",
+          code: 200,
+          time: 15,
+          assertions: "1/2 passed",
+        },
+        {
+          id: 5,
+          name: "[VALID] Get available beds",
+          category: "hospital",
+          status: "pass",
+          code: 200,
+          time: 18,
+          assertions: "2/2 passed",
+        },
+        {
+          id: 6,
+          name: "[VALID] Find nearest hospital",
+          category: "hospital",
+          status: "fail",
+          code: 404,
+          time: 14,
+          assertions: "0/2 passed",
+        },
+        {
+          id: 7,
+          name: "[INVALID] Create hospital - missing name",
+          category: "hospital",
+          status: "pass",
+          code: 400,
+          time: 7,
+          assertions: "1/1 passed",
+        },
+        {
+          id: 8,
+          name: "[INVALID] Create hospital - negative beds",
+          category: "hospital",
+          status: "pass",
+          code: 400,
+          time: 12,
+          assertions: "1/1 passed",
+        },
+        {
+          id: 9,
+          name: "[INVALID] Get hospital - non-existent ID",
+          category: "hospital",
+          status: "pass",
+          code: 404,
+          time: 12,
+          assertions: "1/1 passed",
+        },
+
+        {
+          id: 10,
+          name: "[VALID] Add product to inventory",
+          category: "inventory",
+          status: "fail",
+          code: 200,
+          time: 22,
+          assertions: "1/2 passed",
+        },
+        {
+          id: 11,
+          name: "[VALID] List inventory items",
+          category: "inventory",
+          status: "pass",
+          code: 200,
+          time: 12,
+          assertions: "2/2 passed",
+        },
+        {
+          id: 12,
+          name: "[VALID] Get product details",
+          category: "inventory",
+          status: "pass",
+          code: 200,
+          time: 10,
+          assertions: "2/2 passed",
+        },
+        {
+          id: 13,
+          name: "[VALID] Update product quantity",
+          category: "inventory",
+          status: "fail",
+          code: 400,
+          time: 9,
+          assertions: "0/2 passed",
+        },
+        {
+          id: 14,
+          name: "[INVALID] Add product - negative quantity",
+          category: "inventory",
+          status: "fail",
+          code: 200,
+          time: 16,
+          assertions: "0/1 passed",
+        },
+        {
+          id: 15,
+          name: "[INVALID] Add product to non-existent hospital",
+          category: "inventory",
+          status: "fail",
+          code: 400,
+          time: 9,
+          assertions: "0/1 passed",
+        },
+
+        {
+          id: 16,
+          name: "[VALID] Get all patients in hospital",
+          category: "patient",
+          status: "pass",
+          code: 200,
+          time: 16,
+          assertions: "2/2 passed",
+        },
+        {
+          id: 17,
+          name: "[VALID] Get patient details",
+          category: "patient",
+          status: "pass",
+          code: 200,
+          time: 15,
+          assertions: "2/2 passed",
+        },
+        {
+          id: 18,
+          name: "[VALID] Check in patient",
+          category: "patient",
+          status: "pass",
+          code: 200,
+          time: 26,
+          assertions: "2/2 passed",
+        },
+        {
+          id: 19,
+          name: "[VALID] Check out patient",
+          category: "patient",
+          status: "fail",
+          code: 404,
+          time: 13,
+          assertions: "0/1 passed",
+        },
+        {
+          id: 20,
+          name: "[VALID] Update patient information",
+          category: "patient",
+          status: "pass",
+          code: 200,
+          time: 15,
+          assertions: "2/2 passed",
+        },
+        {
+          id: 21,
+          name: "[INVALID] Check in patient with missing name",
+          category: "patient",
+          status: "fail",
+          code: 200,
+          time: 29,
+          assertions: "0/1 passed",
+        },
+        {
+          id: 22,
+          name: "[INVALID] Get patients - non-existent hospital",
+          category: "patient",
+          status: "pass",
+          code: 404,
+          time: 10,
+          assertions: "1/1 passed",
+        },
+
+        {
+          id: 23,
+          name: "[VALID] Find locations near hospital",
+          category: "location",
+          status: "pass",
+          code: 200,
+          time: 56,
+          assertions: "2/2 passed",
+        },
+        {
+          id: 24,
+          name: "[VALID] Find nearby hospitals with radius 10",
+          category: "location",
+          status: "pass",
+          code: 200,
+          time: 104,
+          assertions: "2/2 passed",
+        },
+        {
+          id: 25,
+          name: "[INVALID] Find nearby hospitals - non-existent hospital",
+          category: "location",
+          status: "fail",
+          code: 400,
+          time: 13,
+          assertions: "0/1 passed",
+        },
+        {
+          id: 26,
+          name: "[INVALID] Find nearby hospitals - missing radius",
+          category: "location",
+          status: "pass",
+          code: 400,
+          time: 17,
+          assertions: "1/1 passed",
+        },
+      ];
+
+      function renderTests(filter = "all") {
+        const tbody = document.getElementById("test-results");
+        tbody.innerHTML = "";
+
+        let filtered = testResults;
+        if (filter !== "all") {
+          filtered = testResults.filter((t) => t.category === filter);
+        }
+
+        filtered.forEach((test) => {
+          const statusClass =
+            test.status === "pass" ? "status-pass" : "status-fail";
+          const statusText = test.status === "pass" ? "✓ PASS" : "✗ FAIL";
+          const httpClass = `http-${test.code}`;
+          const categoryClass = `category-${test.category}`;
+
+          const row = document.createElement("tr");
+          row.className = `test-${test.category}`;
+          row.innerHTML = `
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <div class="test-name">${test.name}</div>
+                    </td>
+                    <td><span class="test-category ${categoryClass}">${test.category.toUpperCase()}</span></td>
+                    <td><span class="http-code ${httpClass}">${test.code}</span></td>
+                    <td class="time">${test.time}ms</td>
+                    <td>${test.assertions}</td>
+                `;
+          tbody.appendChild(row);
+        });
+      }
+
+      function filterTests(category) {
+        // Update button states
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.classList.add("active");
+
+        renderTests(category);
+      }
+
+      function renderFailures() {
+        const failures = testResults.filter((t) => t.status === "fail");
+        const failureList = document.getElementById("failure-list");
+
+        if (failures.length === 0) {
+          const successDiv = document.createElement("div");
+          successDiv.className = "success-message";
+          successDiv.innerHTML =
+            "<strong>🎉 All Tests Passed!</strong> No failures to report.";
+          failureList.appendChild(successDiv);
+          return;
+        }
+
+        failureList.innerHTML = "";
+        failures.forEach((test) => {
+          const item = document.createElement("div");
+          item.className = "failure-item";
+          item.innerHTML = `
+                    <span class="test-name">${test.name}</span>
+                    <div class="assertion">❌ Expected different assertions but got: ${test.assertions}</div>
+                `;
+          failureList.appendChild(item);
+        });
+      }
+
+      // Initialize on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        renderTests();
+        renderFailures();
+      });
+    </script>
+  </body>
+</html>
